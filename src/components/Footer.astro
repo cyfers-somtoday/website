@@ -1,0 +1,99 @@
+---
+import { href, nav, repos } from "../site";
+---
+
+<footer class="site-footer">
+  <div class="wrap grid">
+    <div class="about">
+      <a class="brand" href={href("/")}>Cyfers</a>
+      <p>Somtoday op je desktop. Voor Windows, macOS en Linux.</p>
+      <p class="disclaimer">
+        Cyfers is een onofficiële, onafhankelijke app. Het is niet gemaakt door of verbonden aan Somtoday of je school.
+      </p>
+    </div>
+
+    <nav aria-label="Footer">
+      <h2>Site</h2>
+      <ul>
+        {nav.map((item) => <li><a href={href(item.path)}>{item.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div>
+      <h2>GitHub</h2>
+      <ul>
+        <li><a href={repos.org}>cyfers-somtoday</a></li>
+        <li><a href={repos.allReleases}>Releases</a></li>
+        <li><a href={repos.plugins}>Plugins (cyfer-plugins)</a></li>
+        <li><a href={repos.issues}>Bug melden</a></li>
+      </ul>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .site-footer {
+    background: var(--navy-deep);
+    color: var(--on-navy-muted);
+    padding-block: 4rem 3rem;
+    font-size: 0.97rem;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 2.5rem;
+  }
+
+  .brand {
+    font: 800 2rem/1 var(--font-display);
+    letter-spacing: -0.03em;
+    color: var(--on-navy);
+    text-decoration: none;
+  }
+
+  .about p {
+    margin-top: 0.9rem;
+    max-width: 30rem;
+  }
+
+  .disclaimer {
+    font-size: 0.88rem;
+    opacity: 0.85;
+  }
+
+  h2 {
+    font: 600 0.82rem/1 var(--font-body);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--on-navy);
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  a {
+    color: var(--on-navy-muted);
+    text-decoration: none;
+  }
+
+  a:hover {
+    color: var(--sun);
+  }
+
+  @media (max-width: 760px) {
+    .grid {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    .about {
+      grid-column: 1 / -1;
+    }
+  }
+</style>

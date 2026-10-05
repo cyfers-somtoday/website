@@ -1,0 +1,412 @@
+@import "@fontsource/syne/latin-700.css";
+@import "@fontsource/syne/latin-800.css";
+@import "@fontsource/ibm-plex-sans/latin-400.css";
+@import "@fontsource/ibm-plex-sans/latin-500.css";
+@import "@fontsource/ibm-plex-sans/latin-600.css";
+
+:root {
+  --paper: #f3f5f8;
+  --bg: #e8ecf1;
+  --mist: #dde4ed;
+  --ink: #10141c;
+  --muted: #535e72;
+  --line: #c5ccd8;
+  --navy: #142a40;
+  --navy-deep: #0d1b2d;
+  --on-navy: #e8ecf1;
+  --on-navy-muted: #a7b4c6;
+  --accent: #c43c11;
+  --accent-strong: #a3300b;
+  --accent-soft: rgba(196, 60, 17, 0.12);
+  --sun: #ff8a4c;
+
+  --font-body: "IBM Plex Sans", "Segoe UI", sans-serif;
+  --font-display: "Syne", "IBM Plex Sans", sans-serif;
+
+  --wrap: 1200px;
+  --gutter: clamp(1.25rem, 4vw, 3rem);
+  --section: clamp(4.5rem, 10vw, 8.5rem);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+
+  color-scheme: light;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--font-body);
+  font-size: 1.0625rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+img,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-display);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h2 {
+  font-size: clamp(2rem, 4.4vw, 3.4rem);
+}
+
+h3 {
+  font-size: clamp(1.25rem, 2vw, 1.55rem);
+  letter-spacing: -0.01em;
+}
+
+p {
+  margin: 0;
+  text-wrap: pretty;
+}
+
+a {
+  color: inherit;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 0.2em;
+}
+
+a:hover {
+  color: var(--accent);
+}
+
+:focus-visible {
+  outline: 3px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+code,
+pre {
+  font-family: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  font-size: 0.9em;
+}
+
+:not(pre) > code {
+  background: var(--accent-soft);
+  color: var(--accent-strong);
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+}
+
+.wrap {
+  width: 100%;
+  max-width: calc(var(--wrap) + var(--gutter) * 2);
+  margin-inline: auto;
+  padding-inline: var(--gutter);
+}
+
+.skip-link {
+  position: absolute;
+  left: 1rem;
+  top: -4rem;
+  z-index: 100;
+  background: var(--ink);
+  color: var(--paper);
+  padding: 0.6rem 1rem;
+  border-radius: 8px;
+}
+
+.skip-link:focus {
+  top: 1rem;
+  color: var(--paper);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* Buttons */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.95rem 1.5rem;
+  border-radius: 10px;
+  border: 1.5px solid transparent;
+  font: 600 1rem/1 var(--font-body);
+  text-decoration: none;
+  cursor: pointer;
+  transition:
+    transform 0.25s var(--ease),
+    background-color 0.2s,
+    border-color 0.2s,
+    color 0.2s;
+}
+
+.btn:hover {
+  transform: translateY(-2px);
+}
+
+.btn-primary {
+  background: var(--accent);
+  color: #fff;
+}
+
+.btn-primary:hover {
+  background: var(--accent-strong);
+  color: #fff;
+}
+
+.btn-ghost {
+  border-color: currentColor;
+  color: var(--ink);
+}
+
+.btn-ghost:hover {
+  color: var(--accent);
+}
+
+.btn svg {
+  width: 1.1em;
+  height: 1.1em;
+  transition: transform 0.25s var(--ease);
+}
+
+.btn:hover svg {
+  transform: translateX(3px);
+}
+
+.btn-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.85rem;
+}
+
+/* Atmosphere: isometric lattice (echoes the cap mark's geometry) plus a warm glow */
+
+.atmosphere {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background:
+    radial-gradient(60% 55% at 12% 0%, rgba(20, 42, 64, 0.1), transparent 70%),
+    linear-gradient(165deg, #f1f4f8 0%, #e3e9f0 52%, #d3dde9 100%);
+}
+
+.atmosphere::before {
+  content: "";
+  position: absolute;
+  inset: 0 -140px 0 0;
+  z-index: -2;
+  background-image:
+    repeating-linear-gradient(30deg, rgba(20, 42, 64, 0.075) 0 1px, transparent 1px 64px),
+    repeating-linear-gradient(150deg, rgba(20, 42, 64, 0.075) 0 1px, transparent 1px 64px);
+  -webkit-mask-image: radial-gradient(70% 70% at 70% 55%, #000 10%, transparent 75%);
+  mask-image: radial-gradient(70% 70% at 70% 55%, #000 10%, transparent 75%);
+  animation: lattice-drift 48s linear infinite;
+}
+
+.atmosphere::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  width: min(70vw, 900px);
+  aspect-ratio: 1;
+  right: -18%;
+  bottom: -45%;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255, 138, 76, 0.42) 0%, rgba(196, 60, 17, 0.16) 38%, transparent 68%);
+  animation: sun-breathe 14s ease-in-out infinite alternate;
+}
+
+/* 128px horizontally is a period of both 30deg and 150deg stripe sets, so the loop is seamless. */
+@keyframes lattice-drift {
+  to {
+    transform: translate3d(-128px, 0, 0);
+  }
+}
+
+@keyframes sun-breathe {
+  from {
+    transform: scale(0.94);
+    opacity: 0.85;
+  }
+  to {
+    transform: scale(1.06);
+    opacity: 1;
+  }
+}
+
+/* Sub-page hero */
+
+.page-hero {
+  padding-block: clamp(9rem, 18vw, 13rem) clamp(4rem, 8vw, 6.5rem);
+}
+
+.page-hero h1 {
+  font-size: clamp(2.75rem, 7.5vw, 6rem);
+  font-weight: 800;
+  letter-spacing: -0.035em;
+  max-width: 14ch;
+  color: var(--navy);
+}
+
+.page-hero .lede {
+  margin-top: 1.5rem;
+  max-width: 40rem;
+  font-size: clamp(1.1rem, 1.6vw, 1.3rem);
+  color: var(--muted);
+}
+
+/* Sections */
+
+.section {
+  padding-block: var(--section);
+}
+
+.section + .section {
+  border-top: 1px solid var(--line);
+}
+
+.section.tint {
+  background: var(--bg);
+}
+
+.section-head {
+  display: grid;
+  gap: 1.25rem;
+  max-width: 44rem;
+}
+
+.section-head p {
+  color: var(--muted);
+  font-size: 1.15rem;
+}
+
+.marker {
+  font: 700 0.95rem/1 var(--font-display);
+  letter-spacing: 0.04em;
+  color: var(--accent);
+}
+
+.ticks {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 0.85rem;
+}
+
+.ticks li {
+  position: relative;
+  padding-left: 1.75rem;
+}
+
+.ticks li::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0.62em;
+  width: 0.9rem;
+  height: 2px;
+  background: var(--accent);
+}
+
+.text-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 600;
+  color: var(--accent-strong);
+  text-decoration: none;
+  border-bottom: 1.5px solid currentColor;
+  padding-bottom: 2px;
+}
+
+.text-link:hover {
+  color: var(--ink);
+}
+
+/* Long-form prose (Privacy, FAQ answers) */
+
+.prose {
+  max-width: 42rem;
+}
+
+.prose > * + * {
+  margin-top: 1rem;
+}
+
+.prose h2 {
+  font-size: clamp(1.6rem, 3vw, 2.2rem);
+  margin-top: 0;
+}
+
+.prose ul {
+  padding-left: 1.2rem;
+  margin-bottom: 0;
+}
+
+.prose li + li {
+  margin-top: 0.4rem;
+}
+
+.prose li::marker {
+  color: var(--accent);
+}
+
+/* Scroll reveal (only when JS is available, so content is never hidden without it) */
+
+.js [data-reveal] {
+  opacity: 0;
+  transform: translateY(28px);
+  transition:
+    opacity 0.9s var(--ease),
+    transform 0.9s var(--ease);
+  transition-delay: var(--delay, 0s);
+}
+
+.js [data-reveal].is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .js [data-reveal] {
+    opacity: 1;
+    transform: none;
+  }
+}
