@@ -12,17 +12,34 @@ const plugins = [
   { name: "Huiswerk", kind: "Pagina", text: "Huiswerk per dag in een weekkalender. Klaar? Vink het af." },
 ];
 
+const siteUrl = Astro.site?.href ?? "https://cyfers.dev/";
+const appDescription =
+  "Onofficiële desktop-app voor Somtoday met rooster, cijfers, huiswerk en plugins. Voor leerlingen op Windows, macOS en Linux.";
+
 const jsonLd = {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  name: "Cyfers",
-  applicationCategory: "EducationalApplication",
-  operatingSystem: "Windows, macOS, Linux",
-  description:
-    "Onofficiële desktop-app voor Somtoday met rooster, cijfers, huiswerk en plugins. Voor leerlingen op Windows, macOS en Linux.",
-  offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-  downloadUrl: repos.releases,
-  inLanguage: "nl",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      name: "Cyfers",
+      url: siteUrl,
+      description:
+        "Cyfers is een gratis desktop-app voor Somtoday. Rooster, cijfers en huiswerk in één rustig overzicht, uit te breiden met plugins.",
+      inLanguage: "nl",
+      publisher: { "@type": "Organization", name: "Cyfers", url: siteUrl },
+    },
+    {
+      "@type": "SoftwareApplication",
+      name: "Cyfers",
+      url: siteUrl,
+      applicationCategory: "EducationalApplication",
+      operatingSystem: "Windows, macOS, Linux",
+      description: appDescription,
+      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+      downloadUrl: repos.releases,
+      inLanguage: "nl",
+    },
+  ],
 };
 ---
 
