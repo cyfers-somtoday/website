@@ -1,0 +1,15 @@
+{
+  "$schema": "./node_modules/wrangler/config-schema.json",
+  "name": "cyfers-website",
+  // Use today's date when you add this file
+  "compatibility_date": "2026-10-05",
+  "assets": {
+    "directory": "./dist",
+    // Site ships 404.html and uses trailingSlash: "always"
+    "not_found_handling": "404-page",
+    "html_handling": "auto-trailing-slash"
+  },
+  "observability": {
+    "enabled": true
+  }
+}
