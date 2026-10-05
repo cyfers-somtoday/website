@@ -49,7 +49,7 @@ Internal links must go through `href()` from `src/site.ts` so the base path is a
 ## Deploy
 
 The output in `dist/` is plain static files; any static host works (GitHub Pages, Cloudflare
-Pages, Netlify). Set `SITE_URL` at build time to the final public URL.
+Workers Static Assets, Netlify). Set `SITE_URL` at build time to the final public URL.
 
 **GitHub Pages (included workflow):**
 
@@ -60,6 +60,19 @@ Pages, Netlify). Set `SITE_URL` at build time to the final public URL.
 3. Push to `main` (or run the workflow manually).
 
 For a custom domain on Pages, also add `public/CNAME` containing the domain.
+
+**Cloudflare Workers (Static Assets):** assets-only Worker via `wrangler.jsonc` (`assets.directory`
+`./dist`). Build with the final public URL, then deploy:
+
+```bash
+SITE_URL=https://YOUR-DOMAIN/ npm run deploy   # build + wrangler deploy
+# or: SITE_URL=… npm run build && npx wrangler deploy
+```
+
+Local Workers preview: `SITE_URL=http://127.0.0.1:8787/ npm run cf:preview`.  
+No `@astrojs/cloudflare` adapter — the site is static. Set `SITE_URL` at build time (do not keep
+the GitHub Pages default if the Worker serves the domain root). For CI, use [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) with build `npm run build` and deploy
+`npx wrangler deploy`.
 
 **Cloudflare Pages / Netlify:** build command `npm run build`, output directory `dist`,
 environment variable `SITE_URL`.
