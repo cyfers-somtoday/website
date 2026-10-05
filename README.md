@@ -28,7 +28,7 @@ Requires Node 22+.
 
 ```bash
 npm install
-npm run dev       # http://localhost:4321/website/
+npm run dev       # http://localhost:4321/
 npm run check     # astro check (types + templates)
 npm run build     # static output in dist/
 npm run preview   # serve dist/
@@ -37,11 +37,12 @@ npm run preview   # serve dist/
 ## Site URL and base path
 
 Canonical URLs, Open Graph URLs, `robots.txt` and the sitemap come from `SITE_URL`
-(default: `https://cyfers-somtoday.github.io/website/`). Its path becomes Astro's `base`, so all
-internal links work on a GitHub Pages project site as well as on a root domain.
+(default: `https://cyfers.dev/`). Its path becomes Astro's `base`, so internal links match where
+the site is hosted (root domain vs a sub-path).
 
 ```bash
 SITE_URL=https://cyfers.example/ npm run build   # root domain → base "/"
+SITE_URL=https://owner.github.io/website/ npm run build   # GitHub Pages project site
 ```
 
 Internal links must go through `href()` from `src/site.ts` so the base path is applied.
@@ -51,28 +52,16 @@ Internal links must go through `href()` from `src/site.ts` so the base path is a
 The output in `dist/` is plain static files; any static host works (GitHub Pages, Cloudflare
 Workers Static Assets, Netlify). Set `SITE_URL` at build time to the final public URL.
 
-**GitHub Pages (included workflow):**
-
-1. Repo → Settings → Pages → Source: **GitHub Actions**.
-2. Repo → Settings → Secrets and variables → Actions → Variables:
-   - `DEPLOY_PAGES` = `true` (turns on `.github/workflows/deploy-pages.yml`)
-   - `SITE_URL` = final URL, e.g. `https://cyfers.example/` (optional; defaults to the Pages project URL)
-3. Push to `main` (or run the workflow manually).
-
-For a custom domain on Pages, also add `public/CNAME` containing the domain.
-
 **Cloudflare Workers (Static Assets):** assets-only Worker via `wrangler.jsonc` (`assets.directory`
 `./dist`). Build with the final public URL, then deploy:
 
 ```bash
-SITE_URL=https://YOUR-DOMAIN/ npm run deploy   # build + wrangler deploy
-# or: SITE_URL=… npm run build && npx wrangler deploy
+npm run deploy   # defaults to SITE_URL=https://cyfers.dev/
+# override: SITE_URL=https://YOUR-DOMAIN/ npm run deploy
 ```
 
 Local Workers preview: `SITE_URL=http://127.0.0.1:8787/ npm run cf:preview`.  
-No `@astrojs/cloudflare` adapter — the site is static. Set `SITE_URL` at build time (do not keep
-the GitHub Pages default if the Worker serves the domain root). For CI, use [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/) with build `npm run build` and deploy
-`npx wrangler deploy`.
+No `@astrojs/cloudflare` adapter — the site is static. For [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/), set environment variable `SITE_URL=https://cyfers.dev/` (or leave unset to use the repo default) and use build `npm run build`, deploy `npx wrangler deploy`.
 
 **Cloudflare Pages / Netlify:** build command `npm run build`, output directory `dist`,
 environment variable `SITE_URL`.
@@ -105,4 +94,4 @@ swap them in. Use anonymised data.
 - Privacy page has `TODO(juridisch)` HTML comments: legal review, responsible party/contact,
   hosting/server logs.
 - “Gratis” is stated on Home, Download and FAQ; confirm that it stays true.
-- Choose the final domain and set `SITE_URL`.
+- Production domain is `https://cyfers.dev/` (default `SITE_URL`); override only for other hosts.
