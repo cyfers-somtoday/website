@@ -53,7 +53,8 @@ The output in `dist/` is plain static files; any static host works (GitHub Pages
 Workers Static Assets, Netlify). Set `SITE_URL` at build time to the final public URL.
 
 **Cloudflare Workers (Static Assets):** assets-only Worker via `wrangler.jsonc` (`assets.directory`
-`./dist`). Build with the final public URL, then deploy:
+`./dist`, plus an empty `previews: {}` block so Workers Builds can run `wrangler preview` on PRs).
+Build with the final public URL, then deploy:
 
 ```bash
 npm run deploy   # defaults to SITE_URL=https://cyfers.dev/

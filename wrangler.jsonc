@@ -9,6 +9,8 @@
     "not_found_handling": "404-page",
     "html_handling": "auto-trailing-slash"
   },
+  // Required for `wrangler preview` (Workers Builds PR previews)
+  "previews": {},
   "observability": {
     "enabled": true
   }
