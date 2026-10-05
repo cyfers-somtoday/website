@@ -1,0 +1,243 @@
+---
+import Base from "../layouts/Base.astro";
+import CtaStrip from "../components/CtaStrip.astro";
+import { href, repos } from "../site";
+
+type Item = { q: string; a: string };
+
+// Answers are HTML so they can link; keep them short and factual.
+const groups: { title: string; items: Item[] }[] = [
+  {
+    title: "Over Cyfers",
+    items: [
+      {
+        q: "Is Cyfers van Somtoday of van mijn school?",
+        a: "Nee. Cyfers is een onofficiële, onafhankelijke app. Je logt wel in via de officiële Somtoday-login en Cyfers laat dezelfde gegevens zien als Somtoday zelf.",
+      },
+      {
+        q: "Werkt Cyfers met mijn school?",
+        a: "Als je school Somtoday gebruikt, kun je inloggen zoals je gewend bent: met je wachtwoord of via de login van je school. Lukt het niet? Meld het op <a href=\"" + repos.issues + "\">GitHub</a>.",
+      },
+      {
+        q: "Moet ik betalen?",
+        a: "Nee. Cyfers is gratis te downloaden en te gebruiken.",
+      },
+      {
+        q: "Werkt Cyfers ook in de browser?",
+        a: "Nee. Cyfers is een desktop-app voor Windows, macOS en Linux. Er is geen webversie.",
+      },
+      {
+        q: "Krijg ik een melding bij een nieuw cijfer?",
+        a: "Nee. Cyfers stuurt geen meldingen als de app dicht is. Nieuwe cijfers zie je zodra je Cyfers opent.",
+      },
+    ],
+  },
+  {
+    title: "Veiligheid",
+    items: [
+      {
+        q: "Zijn mijn wachtwoord en tokens veilig?",
+        a: "Je wachtwoord gaat alleen naar Somtoday en wordt niet bewaard. Je sessie staat versleuteld op je eigen computer. Plugins krijgen je token nooit te zien, en Cyfers schrijft geen wachtwoorden of tokens in logbestanden. Meer op de <a href=\"" + href("/privacy/") + "\">privacypagina</a>.",
+      },
+      {
+        q: "Is Cyfers veilig om te gebruiken?",
+        a: "De broncode staat openbaar op <a href=\"" + repos.app + "\">GitHub</a>, dus iedereen kan zien wat de app doet. Cyfers verzamelt geen statistieken en heeft geen eigen server. Plugins draaien afgeschermd en mogen alleen de Somtoday-gegevens ophalen die ze vooraf noemen.",
+      },
+    ],
+  },
+  {
+    title: "Plugins",
+    items: [
+      {
+        q: "Wat zijn plugins?",
+        a: "Uitbreidingen voor Cyfers. Een pagina-plugin krijgt een tab in de zijbalk, een widget komt op Overzicht. Je installeert ze uit de marketplace in de app, of als zip-bestand. Elke plugin heeft zijn eigen, aparte opslag.",
+      },
+      {
+        q: "Kan ik zelf een plugin maken?",
+        a: "Ja. Een plugin is gewoon HTML, CSS en JavaScript. Lees de <a href=\"" + repos.pluginGuide + "\">handleiding voor makers</a> en kijk in <a href=\"" + repos.plugins + "\">cyfer-plugins</a> hoe bestaande plugins werken. Via een pull request kan je plugin in de marketplace komen.",
+      },
+    ],
+  },
+  {
+    title: "Installeren",
+    items: [
+      {
+        q: "Windows of macOS blokkeert de installatie. Wat nu?",
+        a: "Cyfers is nog niet ondertekend met een certificaat van Microsoft of Apple, dus je krijgt de eerste keer een waarschuwing. Op Windows klik je op ‘Meer informatie’ en dan ‘Toch uitvoeren’. Op macOS ga je naar Systeeminstellingen → Privacy en beveiliging en kies je daar om Cyfers toch te openen. Zie ook <a href=\"" + href("/download/#updates") + "\">Download</a>.",
+      },
+      {
+        q: "Linux: AppImage of .deb?",
+        a: "Met de AppImage werkt Cyfers zichzelf bij via een melding in de app. De .deb installeer je met je pakketbeheerder; die werk je zelf bij door een nieuwe .deb te installeren. Een pakket voor de AUR (Arch) is in voorbereiding.",
+      },
+      {
+        q: "Waar meld ik een bug?",
+        a: "Op <a href=\"" + repos.issues + "\">GitHub Issues</a>. Beschrijf wat je deed, wat er gebeurde en welk besturingssysteem je gebruikt. Zet nooit je wachtwoord of cijfers in een melding.",
+      },
+    ],
+  },
+];
+
+const slug = (s: string) => s.toLowerCase().replace(/\s+/g, "-");
+const strip = (html: string) => html.replace(/<[^>]+>/g, "");
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: groups.flatMap((g) =>
+    g.items.map((item) => ({
+      "@type": "Question",
+      name: item.q,
+      acceptedAnswer: { "@type": "Answer", text: strip(item.a) },
+    })),
+  ),
+};
+---
+
+<Base
+  title="Veelgestelde vragen — Cyfers"
+  description="Antwoorden over Cyfers: is het van Somtoday, werkt het met je school, is het veilig, wat zijn plugins en wat als Windows of macOS de installatie blokkeert?"
+  current="/faq/"
+  jsonLd={jsonLd}
+>
+  <header class="page-hero atmosphere">
+    <div class="wrap">
+      <h1>Veelgestelde vragen</h1>
+      <p class="lede">Staat je vraag er niet bij? Stel hem op <a href={repos.issues}>GitHub</a>.</p>
+    </div>
+  </header>
+
+  <div class="section">
+    <div class="wrap groups">
+      {
+        groups.map((group) => (
+          <section class="group" aria-labelledby={`g-${slug(group.title)}`} data-reveal>
+            <h2 id={`g-${slug(group.title)}`}>{group.title}</h2>
+            <div class="items">
+              {group.items.map((item) => (
+                <details>
+                  <summary>
+                    <span>{item.q}</span>
+                    <span class="icon" aria-hidden="true" />
+                  </summary>
+                  <div class="answer">
+                    <p set:html={item.a} />
+                  </div>
+                </details>
+              ))}
+            </div>
+          </section>
+        ))
+      }
+    </div>
+  </div>
+
+  <CtaStrip heading="Zelf proberen?" text="Download Cyfers gratis voor Windows, macOS of Linux." />
+</Base>
+
+<style>
+  .groups {
+    display: grid;
+    gap: clamp(3rem, 7vw, 5rem);
+  }
+
+  .group {
+    display: grid;
+    grid-template-columns: minmax(0, 4fr) minmax(0, 8fr);
+    gap: clamp(1.5rem, 5vw, 4.5rem);
+    align-items: start;
+  }
+
+  .group h2 {
+    font-size: clamp(1.75rem, 3.2vw, 2.4rem);
+    color: var(--navy);
+    position: sticky;
+    top: 2rem;
+  }
+
+  .items {
+    border-top: 1.5px solid var(--navy);
+  }
+
+  details {
+    border-bottom: 1px solid var(--line);
+    interpolate-size: allow-keywords;
+  }
+
+  details::details-content {
+    block-size: 0;
+    overflow: hidden;
+    transition:
+      block-size 0.45s var(--ease),
+      content-visibility 0.45s allow-discrete;
+  }
+
+  details[open]::details-content {
+    block-size: auto;
+  }
+
+  summary {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem;
+    padding-block: 1.35rem;
+    cursor: pointer;
+    list-style: none;
+    font: 600 clamp(1.05rem, 1.6vw, 1.2rem) / 1.35 var(--font-body);
+    transition: color 0.2s;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  summary:hover {
+    color: var(--accent-strong);
+  }
+
+  .icon {
+    position: relative;
+    flex: none;
+    width: 1.75rem;
+    height: 1.75rem;
+    border: 1.5px solid currentColor;
+    border-radius: 50%;
+  }
+
+  .icon::before,
+  .icon::after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0.7rem;
+    height: 1.5px;
+    background: currentColor;
+    translate: -50% -50%;
+    transition: rotate 0.35s var(--ease);
+  }
+
+  .icon::after {
+    rotate: 90deg;
+  }
+
+  details[open] .icon::after {
+    rotate: 0deg;
+  }
+
+  .answer {
+    padding-bottom: 1.5rem;
+    max-width: 40rem;
+    color: var(--muted);
+  }
+
+  @media (max-width: 860px) {
+    .group {
+      grid-template-columns: 1fr;
+    }
+
+    .group h2 {
+      position: static;
+    }
+  }
+</style>

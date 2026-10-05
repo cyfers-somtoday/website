@@ -1,0 +1,146 @@
+---
+import { href } from "../site";
+
+interface Props {
+  heading?: string;
+}
+
+const { heading = "Beschikbaar op je eigen computer" } = Astro.props;
+
+const platforms = [
+  { name: "Windows", detail: "Installer (.exe)" },
+  { name: "macOS", detail: "DMG of zip · Apple silicon en Intel" },
+  { name: "Linux", detail: "AppImage of .deb" },
+];
+---
+
+<section class="band" aria-labelledby="platform-heading">
+  <div class="wrap">
+    <h2 id="platform-heading" data-reveal>{heading}</h2>
+    <ul>
+      {
+        platforms.map((p, i) => (
+          <li data-reveal style={`--delay:${0.1 + i * 0.12}s`}>
+            <a href={href("/download/")}>
+              <span class="name">{p.name}</span>
+              <span class="detail">{p.detail}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+    <div class="cta" data-reveal>
+      <a class="btn btn-primary" href={href("/download/")}>
+        Download Cyfers
+        <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+          ><path d="M4 10h12M11 5l5 5-5 5"></path></svg
+        >
+      </a>
+      <p>Gratis. Altijd de nieuwste versie, rechtstreeks van GitHub.</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .band {
+    position: relative;
+    overflow: hidden;
+    padding-block: var(--section);
+    color: var(--on-navy);
+    background:
+      radial-gradient(55% 80% at 100% 100%, rgba(255, 138, 76, 0.28), transparent 70%),
+      radial-gradient(50% 70% at 0% 0%, rgba(60, 100, 140, 0.35), transparent 70%),
+      var(--navy);
+  }
+
+  .band::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(30deg, rgba(232, 236, 241, 0.05) 0 1px, transparent 1px 64px),
+      repeating-linear-gradient(150deg, rgba(232, 236, 241, 0.05) 0 1px, transparent 1px 64px);
+    pointer-events: none;
+  }
+
+  .wrap {
+    position: relative;
+  }
+
+  h2 {
+    max-width: 16ch;
+  }
+
+  ul {
+    list-style: none;
+    margin: clamp(2.5rem, 6vw, 4.5rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border-top: 1px solid rgba(232, 236, 241, 0.2);
+  }
+
+  li + li {
+    border-left: 1px solid rgba(232, 236, 241, 0.2);
+  }
+
+  li a {
+    display: grid;
+    gap: 0.6rem;
+    padding: 2rem 1.5rem 2rem 0;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  li + li a {
+    padding-left: 1.75rem;
+  }
+
+  .name {
+    font: 800 clamp(2.2rem, 3.4vw, 3.1rem)/1 var(--font-display);
+    letter-spacing: -0.035em;
+    transition:
+      color 0.25s,
+      transform 0.35s var(--ease);
+  }
+
+  li a:hover .name {
+    color: var(--sun);
+    transform: translateX(6px);
+  }
+
+  .detail {
+    color: var(--on-navy-muted);
+  }
+
+  .cta {
+    margin-top: clamp(2rem, 5vw, 3.5rem);
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 1.75rem;
+  }
+
+  .cta p {
+    color: var(--on-navy-muted);
+  }
+
+  @media (max-width: 760px) {
+    ul {
+      grid-template-columns: 1fr;
+    }
+
+    li + li {
+      border-left: 0;
+      border-top: 1px solid rgba(232, 236, 241, 0.2);
+    }
+
+    li + li a {
+      padding-left: 0;
+    }
+
+    li a {
+      padding-block: 1.4rem;
+    }
+  }
+</style>

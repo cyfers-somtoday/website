@@ -1,0 +1,105 @@
+<!doctype html>
+<html lang="nl">
+  <head>
+    <meta charset="utf-8" />
+    <style>
+      @font-face {
+        font-family: "Syne";
+        font-weight: 800;
+        src: url("../../node_modules/@fontsource/syne/files/syne-latin-800-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "Syne";
+        font-weight: 700;
+        src: url("../../node_modules/@fontsource/syne/files/syne-latin-700-normal.woff2") format("woff2");
+      }
+      @font-face {
+        font-family: "IBM Plex Sans";
+        font-weight: 500;
+        src: url("../../node_modules/@fontsource/ibm-plex-sans/files/ibm-plex-sans-latin-500-normal.woff2") format("woff2");
+      }
+      html,
+      body {
+        margin: 0;
+        width: 1200px;
+        height: 630px;
+        overflow: hidden;
+      }
+      body {
+        position: relative;
+        background:
+          radial-gradient(60% 55% at 12% 0%, rgba(20, 42, 64, 0.1), transparent 70%),
+          linear-gradient(165deg, #f1f4f8 0%, #e3e9f0 52%, #d3dde9 100%);
+        font-family: "IBM Plex Sans", sans-serif;
+      }
+      .lattice {
+        position: absolute;
+        inset: 0;
+        background-image:
+          repeating-linear-gradient(30deg, rgba(20, 42, 64, 0.08) 0 1px, transparent 1px 64px),
+          repeating-linear-gradient(150deg, rgba(20, 42, 64, 0.08) 0 1px, transparent 1px 64px);
+        mask-image: radial-gradient(70% 80% at 72% 55%, #000 10%, transparent 75%);
+      }
+      .sun {
+        position: absolute;
+        width: 760px;
+        height: 760px;
+        right: -200px;
+        bottom: -420px;
+        border-radius: 50%;
+        background: radial-gradient(circle, rgba(255, 138, 76, 0.5) 0%, rgba(196, 60, 17, 0.18) 38%, transparent 68%);
+      }
+      .copy {
+        position: absolute;
+        left: 80px;
+        top: 170px;
+      }
+      .wordmark {
+        font: 800 138px/0.82 "Syne";
+        letter-spacing: -0.055em;
+        color: #142a40;
+      }
+      .tagline {
+        margin-top: 42px;
+        font: 700 46px/1.1 "Syne";
+        letter-spacing: -0.02em;
+        color: #10141c;
+      }
+      .sub {
+        margin-top: 18px;
+        font-size: 26px;
+        color: #535e72;
+      }
+      svg {
+        position: absolute;
+        right: 60px;
+        top: 135px;
+        width: 350px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="lattice"></div>
+    <div class="sun"></div>
+    <div class="copy">
+      <div class="wordmark">Cyfers</div>
+      <div class="tagline">Somtoday op je desktop</div>
+      <div class="sub">Windows · macOS · Linux</div>
+    </div>
+    <svg viewBox="160 230 700 660">
+      <defs>
+        <filter id="b" x="-30%" y="-60%" width="160%" height="220%"><feGaussianBlur stdDeviation="18" /></filter>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#1d3d57" />
+          <stop offset="1" stop-color="#10213a" />
+        </linearGradient>
+      </defs>
+      <polygon points="512,712 760,830 512,880 264,830" fill="rgba(13,27,45,0.28)" filter="url(#b)" />
+      <g fill="none" stroke-width="56" stroke-linejoin="miter" stroke-miterlimit="10">
+        <path d="M512 296 L755 430 L512 561 L268 430 Z" stroke="url(#g)" />
+        <path d="M347 472 V638 L512 726 L677 638 V472" stroke="url(#g)" />
+        <path d="M786 430 V648" stroke="#c43c11" />
+      </g>
+    </svg>
+  </body>
+</html>

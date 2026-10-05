@@ -1,0 +1,333 @@
+---
+import Base from "../layouts/Base.astro";
+import CapMark from "../components/CapMark.astro";
+import AppSchematic from "../components/AppSchematic.astro";
+import TrustFlow from "../components/TrustFlow.astro";
+import PlatformBand from "../components/PlatformBand.astro";
+import { href, repos } from "../site";
+
+const plugins = [
+  { name: "Cijfers", kind: "Widget", text: "Je voortgangs- en examencijfers per schooljaar, direct op Overzicht." },
+  { name: "Rooster", kind: "Pagina", text: "Je week van maandag tot vrijdag op een tijdlijn, met een lijn voor ‘nu’." },
+  { name: "Huiswerk", kind: "Pagina", text: "Huiswerk per dag in een weekkalender. Klaar? Vink het af." },
+];
+
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  name: "Cyfers",
+  applicationCategory: "EducationalApplication",
+  operatingSystem: "Windows, macOS, Linux",
+  description:
+    "Onofficiële desktop-app voor Somtoday met rooster, cijfers, huiswerk en plugins. Voor leerlingen op Windows, macOS en Linux.",
+  offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
+  downloadUrl: repos.releases,
+  inLanguage: "nl",
+};
+---
+
+<Base
+  title="Cyfers — Somtoday op je desktop"
+  description="Cyfers is een gratis desktop-app voor Somtoday. Rooster, cijfers en huiswerk in één rustig overzicht, uit te breiden met plugins. Voor Windows, Mac en Linux."
+  current="/"
+  jsonLd={jsonLd}
+>
+  <section class="hero atmosphere">
+    <div class="wrap hero-grid">
+      <div class="hero-copy">
+        <p class="wordmark" aria-hidden="true">Cyfers</p>
+        <h1><span class="visually-hidden">Cyfers: </span>Somtoday op je desktop</h1>
+        <p class="hero-lede">Je rooster, cijfers en huiswerk in één rustig overzicht. Uit te breiden met plugins.</p>
+        <div class="btn-row">
+          <a class="btn btn-primary" href={href("/download/")}>
+            Download
+            <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+              ><path d="M10 3v10M5 9l5 5 5-5M4 17h12"></path></svg
+            >
+          </a>
+          <a class="btn btn-ghost" href={href("/features/")}>Bekijk features</a>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <CapMark />
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="zien">
+    <div class="wrap split">
+      <div class="section-head" data-reveal>
+        <span class="marker">01</span>
+        <h2 id="zien">Wat je meteen ziet</h2>
+        <p>
+          Eén venster met een zijbalk. Bovenaan Overzicht met je widgets, daaronder een tab per plugin. Geen losse
+          browser-tabs meer.
+        </p>
+        <ul class="ticks">
+          <li>Rooster, cijfers en huiswerk via plugins</li>
+          <li>Overzicht met compacte widgets, zoals je lessen van vandaag</li>
+          <li>De marketplace zit gewoon in de app</li>
+        </ul>
+      </div>
+      <div data-reveal style="--delay:0.15s">
+        <AppSchematic />
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="plugins">
+    <div class="wrap split plugins">
+      <div class="section-head" data-reveal>
+        <span class="marker">02</span>
+        <h2 id="plugins">Plugins die meegroeien</h2>
+        <p>
+          Kies zelf wat je in Cyfers wilt. Installeren gaat met één klik vanuit de marketplace, zonder zip-bestanden
+          of instellingen.
+        </p>
+        <a class="text-link" href={repos.plugins}>Alle plugins op GitHub</a>
+      </div>
+      <ul class="plugin-list">
+        {
+          plugins.map((p, i) => (
+            <li data-reveal style={`--delay:${i * 0.1}s`}>
+              <div class="plugin-name">
+                <h3>{p.name}</h3>
+                <span>{p.kind}</span>
+              </div>
+              <p>{p.text}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="inloggen">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
+        <h2 id="inloggen">Inloggen zoals op school</h2>
+        <p>Werkt met je bestaande Somtoday-account. Je kiest je school en logt in zoals je gewend bent.</p>
+      </div>
+      <div class="login-ways">
+        <div data-reveal>
+          <h3>Met wachtwoord</h3>
+          <p>Gebruikersnaam en wachtwoord van Somtoday, direct in Cyfers.</p>
+        </div>
+        <div data-reveal style="--delay:0.12s">
+          <h3>Met school-login (SSO)</h3>
+          <p>Logt je school in via een eigen inlogpagina? Cyfers opent die in een apart venster.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="gegevens">
+    <div class="wrap">
+      <div class="split trust-head">
+        <div class="section-head" data-reveal>
+          <span class="marker">04</span>
+          <h2 id="gegevens">Jouw gegevens blijven van jou</h2>
+        </div>
+        <div data-reveal style="--delay:0.1s">
+          <ul class="ticks">
+            <li>Je sessie staat versleuteld op je eigen computer</li>
+            <li>Plugins krijgen nooit je token of wachtwoord</li>
+            <li>Geen tussenserver in de cloud: Cyfers stuurt plugin-verzoeken alleen door naar Somtoday</li>
+          </ul>
+          <a class="text-link trust-link" href={href("/privacy/")}>Lees hoe het werkt</a>
+        </div>
+      </div>
+      <div data-reveal style="--delay:0.2s">
+        <TrustFlow />
+      </div>
+    </div>
+  </section>
+
+  <PlatformBand />
+</Base>
+
+<style>
+  .hero {
+    min-height: min(100svh, 960px);
+    display: grid;
+    align-items: center;
+    padding-block: 8rem 5rem;
+  }
+
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr);
+    align-items: center;
+    gap: 2rem;
+  }
+
+  .wordmark {
+    /* Syne 800 sets "Cyfers" at roughly 5x its font-size; keep it inside the text column. */
+    font: 800 clamp(4rem, 8.4vw, 7.6rem) / 0.82 var(--font-display);
+    letter-spacing: -0.055em;
+    color: var(--navy);
+    margin-left: -0.05em;
+    animation: rise 1.1s var(--ease) both;
+  }
+
+  h1 {
+    margin-top: clamp(1.5rem, 3vw, 2.25rem);
+    font-size: clamp(1.75rem, 3.4vw, 2.9rem);
+    color: var(--ink);
+    animation: rise 1.1s 0.12s var(--ease) both;
+  }
+
+  .hero-lede {
+    margin-top: 1rem;
+    max-width: 30rem;
+    font-size: clamp(1.1rem, 1.5vw, 1.25rem);
+    color: var(--muted);
+    animation: rise 1.1s 0.22s var(--ease) both;
+  }
+
+  .hero .btn-row {
+    margin-top: 2.25rem;
+    animation: rise 1.1s 0.32s var(--ease) both;
+  }
+
+  .hero-visual {
+    justify-self: end;
+    width: min(100%, 620px);
+  }
+
+  @keyframes rise {
+    from {
+      opacity: 0;
+      transform: translateY(24px);
+    }
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2.5rem, 6vw, 5.5rem);
+    align-items: center;
+  }
+
+  .plugins {
+    align-items: start;
+  }
+
+  .section-head .ticks,
+  .section-head .text-link {
+    margin-top: 0.75rem;
+    justify-self: start;
+  }
+
+  .plugin-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1.5px solid var(--navy);
+  }
+
+  .plugin-list li {
+    display: grid;
+    grid-template-columns: minmax(10rem, 0.8fr) 1fr;
+    gap: 1.5rem;
+    padding-block: 1.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .plugin-name {
+    display: grid;
+    gap: 0.35rem;
+    align-content: start;
+  }
+
+  .plugin-name h3 {
+    font-size: clamp(1.6rem, 2.8vw, 2.2rem);
+    color: var(--navy);
+  }
+
+  .plugin-name span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  .plugin-list p {
+    color: var(--muted);
+    padding-top: 0.35rem;
+  }
+
+  .login-ways {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 1.5px solid var(--navy);
+  }
+
+  .login-ways > div {
+    padding: 2rem 2rem 0 0;
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+  }
+
+  .login-ways > div + div {
+    border-left: 1px solid var(--line);
+    padding-left: 2rem;
+  }
+
+  .login-ways h3 {
+    font-size: clamp(1.5rem, 2.6vw, 2rem);
+    color: var(--navy);
+  }
+
+  .login-ways p {
+    color: var(--muted);
+    max-width: 28rem;
+  }
+
+  .trust-head {
+    align-items: end;
+    margin-bottom: clamp(2.5rem, 5vw, 4rem);
+  }
+
+  .trust-link {
+    margin-top: 1.5rem;
+  }
+
+  @media (max-width: 900px) {
+    .hero {
+      min-height: auto;
+      padding-block: 7.5rem 3.5rem;
+    }
+
+    .hero-grid,
+    .split {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-visual {
+      justify-self: center;
+      width: min(72%, 340px);
+      margin-top: 1rem;
+    }
+  }
+
+  @media (max-width: 640px) {
+    .plugin-list li,
+    .login-ways {
+      grid-template-columns: 1fr;
+    }
+
+    .plugin-list li {
+      gap: 0.5rem;
+    }
+
+    .login-ways > div + div {
+      border-left: 0;
+      padding-left: 0;
+      border-top: 1px solid var(--line);
+      margin-top: 2rem;
+    }
+  }
+</style>

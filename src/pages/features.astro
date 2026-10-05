@@ -1,0 +1,152 @@
+---
+import Base from "../layouts/Base.astro";
+import FeatureRow from "../components/FeatureRow.astro";
+import PlatformBand from "../components/PlatformBand.astro";
+import { href, repos } from "../site";
+
+const manifest = `{
+  "id": "mijn-plugin",
+  "name": "Mijn plugin",
+  "version": "1.0.0",
+  "description": "Mijn eerste Cyfers-plugin",
+  "author": "Jij",
+  "kind": "page",
+  "entry": "ui/index.html",
+  "nav": { "label": "Mijn plugin", "icon": "Sparkles", "order": 50 },
+  "permissions": {
+    "api": ["/rest/v1/leerlingen"]
+  }
+}`;
+---
+
+<Base
+  title="Features — Cyfers"
+  description="Wat Cyfers voor je doet: Overzicht met widgets, je rooster, cijfers en huiswerk via plugins, een marketplace in de app en updates zonder gedoe."
+  current="/features/"
+>
+  <header class="page-hero atmosphere">
+    <div class="wrap">
+      <h1>Wat Cyfers voor je doet</h1>
+      <p class="lede">
+        Cyfers zet je schooldag in één venster. Jij kiest welke plugins erin komen; de rest blijft uit beeld.
+      </p>
+    </div>
+  </header>
+
+  <FeatureRow number="01" id="overzicht" title="Overzicht in één oogopslag">
+    <p class="lead">Je startscherm. Hier staan je widgets naast elkaar, zodat je in een paar seconden weet hoe je dag eruitziet.</p>
+    <ul class="ticks">
+      <li>Widgets zijn kleine blokken, zoals je lessen van vandaag of je laatste cijfers</li>
+      <li>Je bepaalt zelf welke widgets je ziet</li>
+    </ul>
+  </FeatureRow>
+
+  <FeatureRow number="02" id="rooster" title="Rooster en afspraken" tint>
+    <p class="lead">Je week op een tijdlijn, van maandag tot en met vrijdag. Een lijn laat zien waar je nu bent.</p>
+    <p>
+      Lessen die tegelijk vallen staan naast elkaar in plaats van over elkaar heen. Wil je alleen vandaag zien? De
+      widget Vandaag zet je lessen op Overzicht, met de huidige les in het midden.
+    </p>
+  </FeatureRow>
+
+  <FeatureRow number="03" id="cijfers" title="Cijfers">
+    <p class="lead">Je voortgangs- en examencijfers per schooljaar, overzichtelijk en zonder te zoeken.</p>
+    <p>De Cijfers-widget staat op Overzicht, zodat je direct ziet hoe je ervoor staat.</p>
+  </FeatureRow>
+
+  <FeatureRow number="04" id="huiswerk" title="Huiswerk" tint>
+    <p class="lead">Een weekkalender met je huiswerk per dag. Klaar met een opdracht? Vink hem af.</p>
+    <p>Open een taak voor de details, of vink hem meteen af in de lijst.</p>
+  </FeatureRow>
+
+  <FeatureRow number="05" id="marketplace" title="Marketplace">
+    <p class="lead">Alle plugins op één plek, in de app. Installeren is één klik.</p>
+    <ul class="ticks">
+      <li>Zoek op naam of omschrijving en filter op soort: pagina’s in de zijbalk of widgets voor Overzicht</li>
+      <li>Is er een nieuwe versie? Dan zie je <strong>Bijwerken</strong>, of werk alles in één keer bij</li>
+      <li>Plugins komen uit een openbare catalogus op GitHub, zodat iedereen kan meekijken</li>
+    </ul>
+  </FeatureRow>
+
+  <FeatureRow number="06" id="makers" title="Zelf een plugin maken" tint>
+    <p class="lead">Kun je een beetje HTML, CSS en JavaScript? Dan kun je een plugin bouwen.</p>
+    <p>
+      Een plugin is een map met een <code>manifest.json</code> en een <code>ui/</code>-map. Hij draait in een
+      afgeschermd venster en mag alleen de Somtoday-paden gebruiken die je in het manifest noemt.
+    </p>
+    <pre class="code" aria-label="Voorbeeld van een manifest.json"><code>{manifest}</code></pre>
+    <div class="links">
+      <a class="text-link" href={repos.pluginGuide}>Handleiding voor makers</a>
+      <a class="text-link" href={repos.plugins}>cyfer-plugins op GitHub</a>
+    </div>
+  </FeatureRow>
+
+  <FeatureRow number="07" id="updates" title="Updates">
+    <p class="lead">Cyfers houdt zichzelf bij waar dat kan. Er staat nooit iets ongevraagd te installeren.</p>
+    <table>
+      <caption class="visually-hidden">Hoe Cyfers per platform wordt bijgewerkt</caption>
+      <thead>
+        <tr><th scope="col">Platform</th><th scope="col">Zo werk je bij</th></tr>
+      </thead>
+      <tbody>
+        <tr><th scope="row">Windows</th><td>In de app: melding, daarna klik je op <strong>Installeren</strong></td></tr>
+        <tr><th scope="row">macOS</th><td>In de app: melding, daarna klik je op <strong>Installeren</strong></td></tr>
+        <tr><th scope="row">Linux (AppImage)</th><td>In de app: melding, daarna klik je op <strong>Installeren</strong></td></tr>
+        <tr><th scope="row">Linux (.deb)</th><td>Zelf: download de nieuwe .deb en installeer die</td></tr>
+      </tbody>
+    </table>
+    <p>Meer per platform staat op de <a href={href("/download/")}>downloadpagina</a>.</p>
+  </FeatureRow>
+
+  <PlatformBand heading="Klaar om het te proberen?" />
+</Base>
+
+<style>
+  .code {
+    margin: 0;
+    padding: 1.4rem 1.5rem;
+    border-radius: 12px;
+    background: var(--navy-deep);
+    color: #dbe3ee;
+    overflow-x: auto;
+    font-size: 0.88rem;
+    line-height: 1.6;
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 2rem;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 1rem;
+  }
+
+  th,
+  td {
+    text-align: left;
+    padding: 0.85rem 1rem 0.85rem 0;
+    border-bottom: 1px solid var(--line);
+    vertical-align: top;
+  }
+
+  thead th {
+    font-size: 0.8rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    border-bottom: 1.5px solid var(--navy);
+  }
+
+  tbody th {
+    font-weight: 600;
+    white-space: nowrap;
+  }
+
+  td {
+    color: var(--muted);
+  }
+</style>

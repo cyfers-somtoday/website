@@ -1,0 +1,238 @@
+---
+import Base from "../layouts/Base.astro";
+import { repos } from "../site";
+
+const toc = [
+  ["wat-is-cyfers", "Wat is Cyfers"],
+  ["account", "Account en inloggen"],
+  ["lokaal", "Wat de app bewaart"],
+  ["plugins", "Plugins en marketplace"],
+  ["telemetrie", "Geen telemetrie"],
+  ["updates", "Updates"],
+  ["rechten", "Jouw rechten en contact"],
+  ["derden", "Andere partijen"],
+  ["website", "Deze website"],
+];
+---
+
+<Base
+  title="Privacy — Cyfers"
+  description="Hoe Cyfers met je login omgaat: je sessie blijft versleuteld op je computer, plugins zien nooit je token en de app verzamelt geen statistieken."
+  current="/privacy/"
+>
+  <header class="page-hero atmosphere">
+    <div class="wrap">
+      <h1>Privacy en gegevens</h1>
+      <p class="lede">
+        Kort gezegd: je gegevens blijven op je eigen computer. Cyfers heeft geen eigen server en verzamelt niets over
+        jou.
+      </p>
+    </div>
+  </header>
+
+  <!-- TODO(juridisch): laat deze pagina nalezen voordat de site live gaat (o.a. AVG-rollen, minderjarige gebruikers, contactgegevens). -->
+
+  <div class="section">
+    <div class="wrap layout">
+      <nav class="toc" aria-label="Op deze pagina">
+        <p>Op deze pagina</p>
+        <ol>
+          {toc.map(([id, label]) => <li><a href={`#${id}`}>{label}</a></li>)}
+        </ol>
+      </nav>
+
+      <div class="prose doc">
+        <section id="wat-is-cyfers">
+          <h2>Wat is Cyfers</h2>
+          <p>
+            Cyfers is een onofficiële desktop-app voor Somtoday, gemaakt door een onafhankelijke ontwikkelaar. Cyfers is
+            niet van Somtoday en niet van je school. De app gebruikt dezelfde inlog- en datapaden als de officiële
+            Somtoday-omgeving.
+          </p>
+          <!-- TODO(juridisch): naam/contact van de verantwoordelijke ontwikkelaar toevoegen. -->
+        </section>
+
+        <section id="account">
+          <h2>Account en inloggen</h2>
+          <ul>
+            <li>
+              Je logt in bij Somtoday zelf, met je wachtwoord of via de inlogpagina van je school. Je wachtwoord gaat
+              alleen naar Somtoday en wordt niet door Cyfers bewaard.
+            </li>
+            <li>
+              Na het inloggen krijgt Cyfers een sessie (tokens) van Somtoday. Die wordt versleuteld opgeslagen in de
+              app-map op je computer.
+            </li>
+            <li>Plugins krijgen je tokens, wachtwoord of cookies nooit te zien.</li>
+            <li>Cyfers schrijft geen wachtwoorden of tokens weg in logbestanden.</li>
+          </ul>
+        </section>
+
+        <section id="lokaal">
+          <h2>Wat de app op je computer bewaart</h2>
+          <p>Alles staat in de app-map van Cyfers op je eigen computer:</p>
+          <ul>
+            <li>je sessie (versleuteld);</li>
+            <li>de grootte en positie van het venster;</li>
+            <li>je geïnstalleerde plugins en welke aan of uit staan;</li>
+            <li>gegevens die plugins zelf opslaan, zoals afgevinkt huiswerk. Elke plugin heeft een eigen, apart bestand.</li>
+          </ul>
+        </section>
+
+        <section id="plugins">
+          <h2>Plugins en marketplace</h2>
+          <ul>
+            <li>Elke plugin draait in een afgeschermd venster. Hij kan niet bij de rest van Cyfers of bij je sessie.</li>
+            <li>
+              Een plugin vraagt data via Cyfers. Cyfers stuurt dat verzoek alleen door naar Somtoday, en alleen voor
+              de paden die de plugin vooraf in zijn manifest noemt. Andere verzoeken worden geweigerd.
+            </li>
+            <li>
+              Wat een plugin met de data doet die hij krijgt, bepaalt de maker van die plugin. Installeer daarom alleen
+              plugins die je vertrouwt. De plugins in de marketplace staan met hun broncode openbaar in
+              <a href={repos.plugins}>cyfer-plugins</a>.
+            </li>
+          </ul>
+        </section>
+
+        <section id="telemetrie">
+          <h2>Geen telemetrie</h2>
+          <p>
+            Cyfers verzamelt geen gebruiksstatistieken, analytics of crashrapporten en stuurt niets over jou naar de
+            makers van de app.
+          </p>
+        </section>
+
+        <section id="updates">
+          <h2>Updates</h2>
+          <p>
+            De app kijkt op GitHub of er een nieuwe versie is en haalt de lijst met plugins voor de marketplace daar
+            ook op. Daarbij maakt je computer verbinding met GitHub, zoals bij elke website.
+          </p>
+        </section>
+
+        <section id="rechten">
+          <h2>Jouw rechten en contact</h2>
+          <p>
+            Cyfers heeft geen eigen server, dus er staat bij ons niets over jou. Wil je alles weghalen? Log uit in de
+            app en verwijder daarna de app-map:
+          </p>
+          <ul>
+            <li>Windows: <code>%APPDATA%\Cyfers</code></li>
+            <li>macOS: <code>~/Library/Application Support/Cyfers</code></li>
+            <li>Linux: <code>~/.config/Cyfers</code></li>
+          </ul>
+          <p>
+            Vragen over je gegevens in Somtoday zelf, zoals cijfers of je rooster, stel je aan je school. Vragen over
+            Cyfers kun je stellen via <a href={repos.issues}>GitHub</a>.
+          </p>
+          <!-- TODO(juridisch): bevestigen welke rol Cyfers heeft onder de AVG en of een privé-contactadres nodig is. -->
+        </section>
+
+        <section id="derden">
+          <h2>Andere partijen</h2>
+          <ul>
+            <li><strong>Somtoday</strong>: inloggen en al je schoolgegevens.</li>
+            <li><strong>Je school</strong>: de inlogpagina als je school een eigen login (SSO) gebruikt.</li>
+            <li>
+              <strong>GitHub</strong>: downloads en updates, de plugin-catalogus en de lijst met scholen (uit het
+              openbare project <a href="https://github.com/NONtoday/organisaties.json">NONtoday/organisaties.json</a>).
+            </li>
+            <li><strong>Google Fonts</strong>: lettertypen in plugin-vensters.</li>
+          </ul>
+          <p>Voor deze partijen gelden hun eigen privacyvoorwaarden.</p>
+        </section>
+
+        <section id="website">
+          <h2>Deze website</h2>
+          <p>
+            Deze website gebruikt geen cookies en geen analytics. De lettertypen staan op de site zelf. De
+            downloadpagina vraagt aan GitHub wat de nieuwste versie is; je browser maakt daarvoor verbinding met
+            GitHub.
+          </p>
+          <!-- TODO(juridisch): aanvullen met de hostingpartij en eventuele serverlogs zodra de hosting vastligt. -->
+        </section>
+      </div>
+    </div>
+  </div>
+</Base>
+
+<style>
+  .layout {
+    display: grid;
+    grid-template-columns: minmax(12rem, 3fr) minmax(0, 8fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .toc {
+    position: sticky;
+    top: 2rem;
+    font-size: 0.95rem;
+  }
+
+  .toc p {
+    font-size: 0.8rem;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 1rem;
+  }
+
+  .toc ol {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-left: 1.5px solid var(--line);
+  }
+
+  .toc a {
+    display: block;
+    padding: 0.4rem 0 0.4rem 1rem;
+    margin-left: -1.5px;
+    border-left: 1.5px solid transparent;
+    text-decoration: none;
+    color: var(--muted);
+  }
+
+  .toc a:hover {
+    color: var(--ink);
+    border-left-color: var(--accent);
+  }
+
+  .doc section {
+    scroll-margin-top: 2rem;
+    padding-bottom: 2.75rem;
+    margin-bottom: 2.75rem;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .doc section:last-child {
+    border-bottom: 0;
+    margin-bottom: 0;
+  }
+
+  .doc section > * + * {
+    margin-top: 1rem;
+  }
+
+  .doc h2 {
+    color: var(--navy);
+  }
+
+  .doc p,
+  .doc li {
+    color: #3b4558;
+  }
+
+  @media (max-width: 860px) {
+    .layout {
+      grid-template-columns: 1fr;
+    }
+
+    .toc {
+      position: static;
+    }
+  }
+</style>

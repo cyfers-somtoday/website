@@ -1,0 +1,379 @@
+---
+const days = ["ma", "di", "wo", "do", "vr"];
+// Abstract lesson blocks per weekday: [top %, height %]. Illustrative shapes, not real data.
+const lessons = [
+  [[2, 16], [20, 16], [44, 16], [62, 24]],
+  [[2, 24], [30, 16], [50, 16]],
+  [[12, 16], [30, 16], [48, 26], [78, 16]],
+  [[2, 16], [20, 16], [38, 16], [62, 16]],
+  [[2, 24], [30, 16]],
+];
+const homework = [3, 1, 2, 2, 1];
+---
+
+<figure class="schematic">
+  <div class="window" aria-hidden="true">
+    <div class="titlebar"><span></span><span></span><span></span></div>
+    <div class="body">
+      <div class="side">
+        <div class="side-brand">Cyfers</div>
+        <div class="tabs">
+          <span class="indicator"></span>
+          <span class="tab">Overzicht</span>
+          <span class="tab">Rooster</span>
+          <span class="tab">Huiswerk</span>
+          <span class="tab">Plugins</span>
+        </div>
+      </div>
+
+      <div class="pane">
+        <div class="view v1">
+          <span class="view-title">Overzicht</span>
+          <div class="widgets">
+            <div class="widget">
+              <span class="widget-label">Cijfers</span>
+              <div class="bars">
+                {[72, 54, 86, 63, 78].map((w) => <span style={`width:${w}%`}></span>)}
+              </div>
+            </div>
+            <div class="widget">
+              <span class="widget-label">Vandaag</span>
+              <div class="timeline">
+                {[0, 1, 2, 3].map((i) => <span class:list={{ now: i === 1 }}></span>)}
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="view v2">
+          <span class="view-title">Rooster</span>
+          <div class="week">
+            {
+              days.map((day, d) => (
+                <div class="day">
+                  <span class="day-label">{day}</span>
+                  <div class="day-col">
+                    {lessons[d].map(([top, h]) => (
+                      <span class="lesson" style={`top:${top}%;height:${h}%`} />
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+
+        <div class="view v3">
+          <span class="view-title">Huiswerk</span>
+          <div class="week">
+            {
+              days.map((day, d) => (
+                <div class="day">
+                  <span class="day-label">{day}</span>
+                  <div class="day-list">
+                    {Array.from({ length: homework[d] }, (_, i) => (
+                      <span class:list={["task", { done: (d + i) % 3 === 0 }]} />
+                    ))}
+                  </div>
+                </div>
+              ))
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <figcaption>Schematische weergave van het Cyfers-venster: zijbalk met Overzicht, plugin-tabs en de marketplace.</figcaption>
+</figure>
+
+<style>
+  .schematic {
+    margin: 0;
+    --cycle: 12s;
+  }
+
+  .window {
+    border: 1.5px solid var(--navy);
+    border-radius: 14px;
+    background: var(--paper);
+    overflow: hidden;
+    box-shadow:
+      0 1px 0 rgba(255, 255, 255, 0.8) inset,
+      0 40px 80px -40px rgba(13, 27, 45, 0.45);
+    font-size: clamp(0.62rem, 1.1vw, 0.82rem);
+  }
+
+  .titlebar {
+    display: flex;
+    gap: 6px;
+    padding: 0.7em 0.9em;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .titlebar span {
+    width: 9px;
+    height: 9px;
+    border-radius: 50%;
+    border: 1.5px solid var(--line);
+  }
+
+  .body {
+    display: grid;
+    grid-template-columns: 30% 1fr;
+    aspect-ratio: 16 / 9.5;
+  }
+
+  .side {
+    border-right: 1px solid var(--line);
+    padding: 1.2em 0.8em;
+    background: var(--bg);
+  }
+
+  .side-brand {
+    font: 800 1.35em/1 var(--font-display);
+    color: var(--navy);
+    padding: 0 0.6em 1.1em;
+  }
+
+  .tabs {
+    position: relative;
+    display: grid;
+    grid-auto-rows: 2.6em;
+  }
+
+  .tab {
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding-left: 0.9em;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .tab:last-child {
+    margin-top: 0.6em;
+    border-top: 1px dashed var(--line);
+  }
+
+  .indicator {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    height: 2.6em;
+    border-radius: 7px;
+    background: var(--accent-soft);
+    box-shadow: inset 3px 0 0 var(--accent);
+    animation: tab-cycle var(--cycle) var(--ease) infinite;
+  }
+
+  .pane {
+    position: relative;
+  }
+
+  .view {
+    position: absolute;
+    inset: 0;
+    padding: 1.2em 1.4em;
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 1em;
+    animation: var(--cycle) var(--ease) infinite;
+  }
+
+  .v1 {
+    animation-name: show-1;
+  }
+
+  .v2 {
+    opacity: 0;
+    animation-name: show-2;
+  }
+
+  .v3 {
+    opacity: 0;
+    animation-name: show-3;
+  }
+
+  .view-title {
+    font: 700 1.25em/1 var(--font-display);
+    color: var(--navy);
+  }
+
+  .widgets {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1em;
+  }
+
+  .widget {
+    border: 1px solid var(--line);
+    border-radius: 9px;
+    padding: 0.9em;
+    display: grid;
+    align-content: start;
+    gap: 0.9em;
+  }
+
+  .widget-label {
+    font-weight: 600;
+  }
+
+  .bars {
+    display: grid;
+    gap: 0.65em;
+  }
+
+  .bars span {
+    height: 0.55em;
+    border-radius: 3px;
+    background: linear-gradient(90deg, var(--navy), #3c5a78);
+    opacity: 0.85;
+  }
+
+  .timeline {
+    display: grid;
+    gap: 0.5em;
+  }
+
+  .timeline span {
+    height: 1.7em;
+    border-radius: 5px;
+    border: 1px solid var(--line);
+    background: var(--bg);
+  }
+
+  .timeline .now {
+    border-color: var(--accent);
+    background: var(--accent-soft);
+  }
+
+  .week {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5em;
+    min-height: 0;
+  }
+
+  .day {
+    display: grid;
+    grid-template-rows: auto 1fr;
+    gap: 0.5em;
+    min-height: 0;
+  }
+
+  .day-label {
+    font-weight: 600;
+    color: var(--muted);
+    text-align: center;
+  }
+
+  .day-col {
+    position: relative;
+    border-radius: 6px;
+    background: repeating-linear-gradient(180deg, transparent 0 calc(12.5% - 1px), var(--line) calc(12.5% - 1px) 12.5%);
+  }
+
+  .lesson {
+    position: absolute;
+    left: 6%;
+    right: 6%;
+    border-radius: 5px;
+    background: #d7e0ea;
+    border-left: 3px solid var(--navy);
+  }
+
+  .day-list {
+    display: grid;
+    align-content: start;
+    gap: 0.45em;
+  }
+
+  .task {
+    height: 1.9em;
+    border: 1px solid var(--line);
+    border-radius: 5px;
+    background:
+      linear-gradient(var(--paper), var(--paper)) 0.5em 50% / 0.8em 0.8em no-repeat,
+      var(--bg);
+    position: relative;
+  }
+
+  .task::before {
+    content: "";
+    position: absolute;
+    left: 0.5em;
+    top: 50%;
+    width: 0.8em;
+    height: 0.8em;
+    translate: 0 -50%;
+    border: 1.5px solid var(--muted);
+    border-radius: 3px;
+  }
+
+  .task.done::before {
+    background: var(--accent);
+    border-color: var(--accent);
+  }
+
+  figcaption {
+    margin-top: 1rem;
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  @keyframes tab-cycle {
+    0%,
+    28% {
+      transform: translateY(0);
+    }
+    33%,
+    61% {
+      transform: translateY(100%);
+    }
+    66%,
+    94% {
+      transform: translateY(200%);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+
+  @keyframes show-1 {
+    0%,
+    28%,
+    100% {
+      opacity: 1;
+    }
+    33%,
+    94% {
+      opacity: 0;
+    }
+  }
+
+  @keyframes show-2 {
+    0%,
+    28%,
+    66%,
+    100% {
+      opacity: 0;
+    }
+    33%,
+    61% {
+      opacity: 1;
+    }
+  }
+
+  @keyframes show-3 {
+    0%,
+    61%,
+    100% {
+      opacity: 0;
+    }
+    66%,
+    94% {
+      opacity: 1;
+    }
+  }
+</style>

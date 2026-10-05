@@ -1,0 +1,27 @@
+---
+import Base from "../layouts/Base.astro";
+import { href } from "../site";
+---
+
+<Base title="Pagina niet gevonden — Cyfers" description="Deze pagina bestaat niet (meer).">
+  <header class="page-hero atmosphere notfound">
+    <div class="wrap">
+      <h1>Deze pagina bestaat niet</h1>
+      <p class="lede">Misschien is hij verplaatst. Ga terug naar de homepage of download Cyfers.</p>
+      <div class="btn-row">
+        <a class="btn btn-primary" href={href("/download/")}>Download</a>
+        <a class="btn btn-ghost" href={href("/")}>Naar home</a>
+      </div>
+    </div>
+  </header>
+</Base>
+
+<style>
+  .notfound {
+    min-height: 80svh;
+  }
+
+  .btn-row {
+    margin-top: 2rem;
+  }
+</style>

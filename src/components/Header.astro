@@ -1,0 +1,214 @@
+---
+import { href, nav } from "../site";
+
+interface Props {
+  current?: string;
+}
+
+const { current } = Astro.props;
+---
+
+<header class="site-header">
+  <div class="wrap bar">
+    <a class="brand" href={href("/")} aria-label="Cyfers, naar de homepage">
+      <img src={href("/favicon-32.png")} width="28" height="28" alt="" />
+      <span>Cyfers</span>
+    </a>
+
+    <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="site-nav">
+      <span class="visually-hidden">Menu</span>
+      <span class="bars" aria-hidden="true"></span>
+    </button>
+
+    <nav id="site-nav" aria-label="Hoofdmenu">
+      <ul>
+        {
+          nav
+            .filter((item) => item.path !== "/download/")
+            .map((item) => (
+              <li>
+                <a href={href(item.path)} aria-current={current === item.path ? "page" : undefined}>
+                  {item.label}
+                </a>
+              </li>
+            ))
+        }
+      </ul>
+      <a
+        class="btn btn-primary nav-cta"
+        href={href("/download/")}
+        aria-current={current === "/download/" ? "page" : undefined}>Download</a
+      >
+    </nav>
+  </div>
+</header>
+
+<style>
+  .site-header {
+    position: absolute;
+    inset: 0 0 auto;
+    z-index: 20;
+  }
+
+  .bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding-block: 1.25rem;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    font: 800 1.35rem/1 var(--font-display);
+    letter-spacing: -0.02em;
+    color: var(--navy);
+    text-decoration: none;
+  }
+
+  .brand img {
+    border-radius: 7px;
+  }
+
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+  }
+
+  ul {
+    display: flex;
+    gap: 1.6rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  ul a {
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--ink);
+    padding-block: 0.35rem;
+    background: linear-gradient(var(--accent), var(--accent)) left bottom / 0 2px no-repeat;
+    transition: background-size 0.3s var(--ease);
+  }
+
+  ul a:hover,
+  ul a[aria-current="page"] {
+    color: var(--ink);
+    background-size: 100% 2px;
+  }
+
+  .nav-cta {
+    padding: 0.7rem 1.15rem;
+  }
+
+  .menu-toggle {
+    display: none;
+  }
+
+  @media (max-width: 760px) {
+    :global(.js) .menu-toggle {
+      display: grid;
+      place-items: center;
+      width: 44px;
+      height: 44px;
+      border: 1.5px solid var(--navy);
+      border-radius: 10px;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .bars,
+    .bars::before,
+    .bars::after {
+      display: block;
+      width: 18px;
+      height: 2px;
+      background: var(--navy);
+      transition: transform 0.3s var(--ease);
+    }
+
+    .bars {
+      position: relative;
+    }
+
+    .bars::before,
+    .bars::after {
+      content: "";
+      position: absolute;
+      left: 0;
+    }
+
+    .bars::before {
+      top: -6px;
+    }
+
+    .bars::after {
+      top: 6px;
+    }
+
+    [aria-expanded="true"] .bars {
+      background: transparent;
+    }
+
+    [aria-expanded="true"] .bars::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    [aria-expanded="true"] .bars::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .bar {
+      flex-wrap: wrap;
+    }
+
+    nav {
+      flex-basis: 100%;
+      flex-direction: column;
+      align-items: stretch;
+      gap: 1rem;
+    }
+
+    :global(.js) nav {
+      display: none;
+    }
+
+    :global(.js) nav.open {
+      display: flex;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      padding: 1rem 1.25rem 1.25rem;
+      box-shadow: 0 24px 48px -24px rgba(13, 27, 45, 0.35);
+    }
+
+    ul {
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    ul a {
+      display: block;
+      padding-block: 0.6rem;
+      font-size: 1.1rem;
+    }
+
+    .nav-cta {
+      justify-content: center;
+    }
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>(".menu-toggle");
+  const menu = document.getElementById("site-nav");
+  toggle?.addEventListener("click", () => {
+    const open = toggle.getAttribute("aria-expanded") !== "true";
+    toggle.setAttribute("aria-expanded", String(open));
+    menu?.classList.toggle("open", open);
+  });
+</script>
