@@ -1,0 +1,72 @@
+---
+interface Props {
+  number: string;
+  id: string;
+  title: string;
+  tint?: boolean;
+}
+
+const { number, id, title, tint = false } = Astro.props;
+---
+
+<section class:list={["section", "row", { tint }]} aria-labelledby={id}>
+  <div class="wrap grid">
+    <div class="head" data-reveal>
+      <span class="num" aria-hidden="true">{number}</span>
+      <h2 id={id}>{title}</h2>
+    </div>
+    <div class="body" data-reveal style="--delay:0.12s">
+      <slot />
+    </div>
+  </div>
+</section>
+
+<style>
+  .grid {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .head {
+    position: sticky;
+    top: 2rem;
+    display: grid;
+    gap: 1rem;
+  }
+
+  .num {
+    font: 800 clamp(3.5rem, 8vw, 6.5rem) / 0.8 var(--font-display);
+    letter-spacing: -0.05em;
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+  .body {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 40rem;
+    font-size: 1.1rem;
+  }
+
+  .body :global(p) {
+    color: var(--muted);
+  }
+
+  .body :global(p.lead) {
+    color: var(--ink);
+    font-size: clamp(1.2rem, 1.8vw, 1.4rem);
+    line-height: 1.45;
+  }
+
+  @media (max-width: 860px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+
+    .head {
+      position: static;
+    }
+  }
+</style>
