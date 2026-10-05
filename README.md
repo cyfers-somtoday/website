@@ -49,12 +49,12 @@ Internal links must go through `href()` from `src/site.ts` so the base path is a
 
 ## Deploy
 
-The output in `dist/` is plain static files; any static host works (GitHub Pages, Cloudflare
-Workers Static Assets, Netlify). Set `SITE_URL` at build time to the final public URL.
+Production is **https://cyfers.dev/** — Cloudflare Worker `cyfers-website` (Workers Static Assets).
+There is **no** GitHub Actions deploy workflow; CI/CD is [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/)
+connected to this GitHub repo. Set `SITE_URL` at build time to the final public URL.
 
-**Cloudflare Workers (Static Assets):** assets-only Worker via `wrangler.jsonc` (`assets.directory`
-`./dist`, plus an empty `previews: {}` block so Workers Builds can run `wrangler preview` on PRs).
-Build with the final public URL, then deploy:
+**Manual deploy (local):** assets-only Worker via `wrangler.jsonc` (`assets.directory` `./dist`,
+plus an empty `previews: {}` block so Workers Builds can run `wrangler preview` on PRs):
 
 ```bash
 npm run deploy   # defaults to SITE_URL=https://cyfers.dev/
@@ -62,10 +62,42 @@ npm run deploy   # defaults to SITE_URL=https://cyfers.dev/
 ```
 
 Local Workers preview: `SITE_URL=http://127.0.0.1:8787/ npm run cf:preview`.  
-No `@astrojs/cloudflare` adapter — the site is static. For [Workers Builds](https://developers.cloudflare.com/workers/ci-cd/builds/), set environment variable `SITE_URL=https://cyfers.dev/` (or leave unset to use the repo default) and use build `npm run build`, deploy `npx wrangler deploy`.
+No `@astrojs/cloudflare` adapter — the site is static.
 
-**Cloudflare Pages / Netlify:** build command `npm run build`, output directory `dist`,
-environment variable `SITE_URL`.
+### Workers Builds (auto-deploy on `main`)
+
+Expected dashboard settings for Worker **cyfers-website**:
+
+| Setting | Value |
+| --- | --- |
+| Repository | `cyfers-somtoday/website` |
+| Production branch | `main` |
+| Root directory | `/` (repo root) |
+| Build command | `npm run build` |
+| Deploy command | `npx wrangler deploy` (not `npm run deploy` — that would build twice) |
+| Preview command | `npx wrangler preview` |
+| Build var `SITE_URL` | unset, or `https://cyfers.dev/` — **never** the old GitHub Pages URL |
+
+Every push to `main` (including PR merges) should create a production build, then deploy.
+PR branches use preview builds when enabled.
+
+**If a push to `main` does not ship:**
+
+1. [Cloudflare dashboard](https://dash.cloudflare.com) → **Workers & Pages** → **cyfers-website**.
+2. Open **Deployments** (or **Builds**) and check the latest row for that commit.
+3. If status is **Canceled** / **Failed**: open the build → **Retry** (or push a new commit to `main`).
+4. **Settings** → **Builds** → **Branch control**: production branch must be **`main`**.
+5. **Settings** → **Builds**: confirm build/deploy commands match the table above; clear any
+   `SITE_URL` build variable that still points at `*.github.io/website/`.
+6. GitHub → org **cyfers-somtoday** → **Settings** → **GitHub Apps** (or
+   https://github.com/organizations/cyfers-somtoday/settings/installations) → **Cloudflare Workers & Pages**
+   → repository access includes **website** (or “All repositories”).
+7. Optional recovery: **Settings** → **Builds** → **Deploy Hooks** → create a hook for `main`,
+   then `curl -X POST "<hook-url>"` to force a production build without a new commit.
+8. Last resort without Builds: from a machine with Wrangler auth, `npm run deploy` in this repo.
+
+**Cloudflare Pages / Netlify** (not used for cyfers.dev): build `npm run build`, output `dist`,
+env `SITE_URL`.
 
 After the first deploy: add the site to Google Search Console and submit `sitemap-index.xml`.
 
