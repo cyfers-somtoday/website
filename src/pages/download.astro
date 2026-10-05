@@ -1,0 +1,388 @@
+---
+import Base from "../layouts/Base.astro";
+import { href, releaseApi, repos } from "../site";
+
+const platforms = [
+  {
+    id: "windows",
+    name: "Windows",
+    note: "Windows 10 of nieuwer, 64-bit",
+    primary: { asset: "exe", label: "Download voor Windows", file: ".exe-installer" },
+    extra: [],
+  },
+  {
+    id: "mac",
+    name: "macOS",
+    note: "Apple silicon en Intel (universal)",
+    primary: { asset: "dmg", label: "Download voor macOS", file: ".dmg" },
+    extra: [{ asset: "maczip", label: ".zip-versie" }],
+  },
+  {
+    id: "linux",
+    name: "Linux",
+    note: "x86-64. AppImage werkt op de meeste distributies",
+    primary: { asset: "appimage", label: "Download AppImage", file: ".AppImage" },
+    extra: [{ asset: "deb", label: ".deb voor Debian/Ubuntu" }],
+  },
+];
+---
+
+<Base
+  title="Download Cyfers voor Windows, Mac en Linux"
+  description="Download Cyfers gratis voor Windows, macOS en Linux. Installeer in drie stappen en log in met je Somtoday-account of school-login. Altijd de nieuwste versie."
+  current="/download/"
+>
+  <header class="page-hero atmosphere">
+    <div class="wrap">
+      <h1>Download Cyfers</h1>
+      <p class="lede">
+        Gratis voor Windows, macOS en Linux. Je krijgt altijd de nieuwste versie, rechtstreeks van GitHub.
+      </p>
+      <p class="release" data-release hidden>
+        Nieuwste versie: <strong data-release-version></strong> <span data-release-date></span>
+      </p>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="platform">
+    <div class="wrap">
+      <h2 id="platform" class="visually-hidden">Kies je platform</h2>
+      <div class="platforms">
+        {
+          platforms.map((p, i) => (
+            <article class="platform" id={p.id} data-reveal style={`--delay:${i * 0.1}s`}>
+              <p class="for-you">Past bij jouw computer</p>
+              <h3>{p.name}</h3>
+              <p class="note">{p.note}</p>
+              <a class="btn btn-primary" href={repos.releases} data-asset={p.primary.asset}>
+                {p.primary.label}
+                <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+                  <path d="M10 3v10M5 9l5 5 5-5M4 17h12" />
+                </svg>
+              </a>
+              <p class="file">
+                {p.primary.file}
+                <span data-size={p.primary.asset} />
+              </p>
+              {p.extra.length > 0 && (
+                <p class="extra">
+                  Of:{" "}
+                  {p.extra.map((x) => (
+                    <a href={repos.releases} data-asset={x.asset}>
+                      {x.label}
+                    </a>
+                  ))}
+                </p>
+              )}
+            </article>
+          ))
+        }
+      </div>
+      <p class="fallback" data-reveal>
+        Werkt een knop niet? Alle bestanden staan op de <a href={repos.releases}>releasepagina op GitHub</a>.
+      </p>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="stappen">
+    <div class="wrap">
+      <h2 id="stappen" data-reveal>Installeren in 3 stappen</h2>
+      <ol class="steps">
+        <li data-reveal>
+          <h3>Download</h3>
+          <p>Kies hierboven je platform. Het bestand komt in je map Downloads.</p>
+        </li>
+        <li data-reveal style="--delay:0.1s">
+          <h3>Open</h3>
+          <p>
+            Windows: dubbelklik de installer. macOS: open de .dmg en sleep Cyfers naar Apps. Linux: maak de AppImage
+            uitvoerbaar en start hem.
+          </p>
+        </li>
+        <li data-reveal style="--delay:0.2s">
+          <h3>Log in</h3>
+          <p>Kies je school en log in met je Somtoday-account, met wachtwoord of via je school-login.</p>
+        </li>
+      </ol>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="eerste-keer">
+    <div class="wrap two-col">
+      <h2 id="eerste-keer" data-reveal>De eerste keer</h2>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <ul>
+          <li><strong>School kiezen.</strong> Typ de naam of plaats van je school en kies hem uit de lijst.</li>
+          <li>
+            <strong>Inloggen.</strong> Met wachtwoord log je direct in Cyfers in. Gebruikt je school een eigen
+            inlogpagina? Dan opent Cyfers die in een apart venster. Na het inloggen sluit dat venster vanzelf.
+          </li>
+          <li>
+            <strong>Plugins kiezen.</strong> Ga naar Plugins en installeer wat je wilt, zoals Rooster, Cijfers of
+            Huiswerk. Pagina’s komen in de zijbalk, widgets op Overzicht.
+          </li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="updates">
+    <div class="wrap two-col">
+      <h2 id="updates" data-reveal>Updates en waarschuwingen</h2>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Cyfers is nog niet ondertekend met een certificaat van Microsoft of Apple. Daarom kan je computer de eerste
+          keer een waarschuwing geven. Dat is normaal voor kleine, onafhankelijke apps.
+        </p>
+        <h3>Windows</h3>
+        <p>
+          Zie je ‘Windows heeft uw pc beschermd’? Klik op <strong>Meer informatie</strong> en dan op
+          <strong>Toch uitvoeren</strong>. Updates komen daarna vanzelf binnen: je krijgt een melding en klikt op
+          <strong>Installeren</strong>.
+        </p>
+        <h3>macOS</h3>
+        <p>
+          Kan Cyfers niet worden geopend? Ga naar <strong>Systeeminstellingen → Privacy en beveiliging</strong>, scrol
+          naar de melding over Cyfers en kies daar om de app toch te openen. Dat hoeft maar één keer. Updates werken
+          net als op Windows: melding, daarna <strong>Installeren</strong>.
+        </p>
+        <h3>Linux</h3>
+        <p>
+          AppImage: maak het bestand uitvoerbaar (<code>chmod +x Cyfers-*.AppImage</code>) en start het. De AppImage
+          werkt zichzelf bij via een melding in de app. Gebruik je de .deb? Installeer met
+          <code>sudo apt install ./cyfers_*.deb</code>. Die versie werk je zelf bij door een nieuwe .deb te
+          installeren.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="bron">
+    <div class="wrap two-col">
+      <h2 id="bron" data-reveal>Bron en releases</h2>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Elke versie van Cyfers wordt automatisch gebouwd en gepubliceerd op GitHub. De broncode staat daar openbaar,
+          zodat je kunt zien wat de app doet.
+        </p>
+        <ul>
+          <li><a href={repos.releases}>Nieuwste release</a></li>
+          <li><a href={repos.allReleases}>Alle releases</a></li>
+          <li><a href={repos.app}>Broncode van de app</a></li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="problemen">
+    <div class="wrap two-col">
+      <h2 id="problemen" data-reveal>Problemen?</h2>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Kijk eerst bij de <a href={href("/faq/")}>veelgestelde vragen</a>. Staat je probleem er niet bij? Meld het
+          op <a href={repos.issues}>GitHub</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<script define:vars={{ releaseApi }}>
+  const platform = (navigator.userAgentData?.platform || navigator.platform || navigator.userAgent).toLowerCase();
+  const os = /win/.test(platform) ? "windows" : /mac/.test(platform) ? "mac" : /linux|x11/.test(platform) && !/android/.test(navigator.userAgent.toLowerCase()) ? "linux" : null;
+  if (os) {
+    const card = document.getElementById(os);
+    card?.classList.add("recommended");
+  }
+
+  const patterns = {
+    exe: /\.exe$/i,
+    dmg: /\.dmg$/i,
+    maczip: /-mac\.zip$/i,
+    appimage: /\.AppImage$/i,
+    deb: /\.deb$/i,
+  };
+
+  fetch(releaseApi, { headers: { Accept: "application/vnd.github+json" } })
+    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+    .then((release) => {
+      for (const [key, re] of Object.entries(patterns)) {
+        const asset = release.assets.find((a) => re.test(a.name));
+        if (!asset) continue;
+        document.querySelectorAll(`[data-asset="${key}"]`).forEach((a) => a.setAttribute("href", asset.browser_download_url));
+        const size = document.querySelector(`[data-size="${key}"]`);
+        if (size) size.textContent = ` · ${Math.round(asset.size / 1e6)} MB`;
+      }
+      const box = document.querySelector("[data-release]");
+      box.querySelector("[data-release-version]").textContent = release.tag_name;
+      const date = new Date(release.published_at);
+      if (!Number.isNaN(date.getTime())) {
+        box.querySelector("[data-release-date]").textContent =
+          "· " + date.toLocaleDateString("nl-NL", { day: "numeric", month: "long", year: "numeric" });
+      }
+      box.removeAttribute("hidden");
+    })
+    .catch(() => {});
+</script>
+
+<style>
+  .release {
+    margin-top: 1.25rem;
+    color: var(--muted);
+  }
+
+  .release strong {
+    color: var(--navy);
+  }
+
+  .platforms {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.25rem;
+  }
+
+  .platform {
+    display: grid;
+    grid-template-rows: auto auto 1fr auto auto auto;
+    gap: 0.75rem;
+    padding: 2rem 1.75rem 1.75rem;
+    border: 1.5px solid var(--line);
+    border-radius: 16px;
+    background: var(--paper);
+    transition:
+      border-color 0.3s,
+      box-shadow 0.4s var(--ease),
+      transform 0.4s var(--ease);
+  }
+
+  .platform:hover {
+    transform: translateY(-4px);
+  }
+
+  .recommended .for-you {
+    visibility: visible;
+  }
+
+  .platform.recommended {
+    border-color: var(--navy);
+    box-shadow: 0 30px 60px -36px rgba(13, 27, 45, 0.55);
+  }
+
+  .for-you {
+    visibility: hidden;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  .platform h3 {
+    font-size: clamp(2rem, 3.6vw, 2.8rem);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: var(--navy);
+  }
+
+  .note {
+    color: var(--muted);
+    margin-bottom: 0.75rem;
+  }
+
+  .platform .btn {
+    justify-content: center;
+    align-self: end;
+  }
+
+  .platform:not(.recommended) .btn {
+    background: var(--navy);
+  }
+
+  .platform:not(.recommended) .btn:hover {
+    background: var(--navy-deep);
+  }
+
+  .file,
+  .extra {
+    font-size: 0.9rem;
+    color: var(--muted);
+  }
+
+  .extra a {
+    font-weight: 600;
+  }
+
+  .extra a + a::before {
+    content: " · ";
+  }
+
+  .fallback {
+    margin-top: 2rem;
+    color: var(--muted);
+  }
+
+  .steps {
+    list-style: none;
+    counter-reset: step;
+    margin: clamp(2.5rem, 5vw, 4rem) 0 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .steps li {
+    counter-increment: step;
+    display: grid;
+    gap: 0.75rem;
+    align-content: start;
+    padding-top: 1.5rem;
+    border-top: 1.5px solid var(--navy);
+  }
+
+  .steps li::before {
+    content: counter(step);
+    font: 800 clamp(3.5rem, 7vw, 5.5rem) / 0.8 var(--font-display);
+    color: transparent;
+    -webkit-text-stroke: 1.5px var(--accent);
+  }
+
+  .steps h3 {
+    color: var(--navy);
+  }
+
+  .steps p {
+    color: var(--muted);
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .two-col h2 {
+    color: var(--navy);
+  }
+
+  .prose h3 {
+    margin-top: 1.75rem;
+    color: var(--navy);
+  }
+
+  .prose p,
+  .prose li {
+    color: var(--muted);
+  }
+
+  .prose strong {
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .platforms,
+    .steps,
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
