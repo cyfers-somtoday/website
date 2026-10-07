@@ -14,7 +14,7 @@ const plugins = [
 
 const siteUrl = Astro.site?.href ?? "https://cyfers.dev/";
 const appDescription =
-  "Onofficiële desktop-app voor Somtoday met rooster, cijfers, huiswerk en plugins. Voor leerlingen op Windows, macOS en Linux.";
+  "Onofficiële desktop-app voor Somtoday: rooster, cijfers en huiswerk op Windows, macOS en Linux. Een rustig alternatief voor Somtoday in de browser, met plugins.";
 
 const jsonLd = {
   "@context": "https://schema.org",
@@ -24,7 +24,7 @@ const jsonLd = {
       name: "Cyfers",
       url: siteUrl,
       description:
-        "Cyfers is een gratis desktop-app voor Somtoday. Rooster, cijfers en huiswerk in één rustig overzicht, uit te breiden met plugins.",
+        "Cyfers is een gratis, onofficiële desktop-app voor Somtoday. Rooster, cijfers en huiswerk op je computer, uit te breiden met plugins.",
       inLanguage: "nl",
       publisher: { "@type": "Organization", name: "Cyfers", url: siteUrl },
     },
@@ -44,8 +44,8 @@ const jsonLd = {
 ---
 
 <Base
-  title="Cyfers — Somtoday op je desktop"
-  description="Cyfers is een gratis desktop-app voor Somtoday. Rooster, cijfers en huiswerk in één rustig overzicht, uit te breiden met plugins. Voor Windows, Mac en Linux."
+  title="Cyfers — Desktop-app voor Somtoday"
+  description="Cyfers is een gratis, onofficiële desktop-app voor Somtoday. Rooster, cijfers en huiswerk op Windows, Mac en Linux — een rustig alternatief voor Somtoday in de browser, met plugins."
   current="/"
   jsonLd={jsonLd}
 >
@@ -54,7 +54,9 @@ const jsonLd = {
       <div class="hero-copy">
         <p class="wordmark" aria-hidden="true">Cyfers</p>
         <h1><span class="visually-hidden">Cyfers: </span>Somtoday op je desktop</h1>
-        <p class="hero-lede">Je rooster, cijfers en huiswerk in één rustig overzicht. Uit te breiden met plugins.</p>
+        <p class="hero-lede">
+          Je rooster, cijfers en huiswerk in één rustig overzicht op je computer. Uit te breiden met plugins.
+        </p>
         <div class="btn-row">
           <a class="btn btn-primary" href={href("/download/")}>
             Download
@@ -92,10 +94,30 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section tint" aria-labelledby="plugins">
-    <div class="wrap split plugins">
+  <section class="section tint" aria-labelledby="alternatief">
+    <div class="wrap intent-block">
       <div class="section-head" data-reveal>
         <span class="marker">02</span>
+        <h2 id="alternatief">Een desktop-alternatief voor Somtoday in de browser</h2>
+        <p>
+          Zoek je een Somtoday-desktopervaring? Cyfers is een onafhankelijke desktop-app: je logt in met je bestaande
+          schoolaccount en ziet dezelfde gegevens als in Somtoday, maar in een eigen venster op Windows, macOS of
+          Linux.
+        </p>
+      </div>
+      <ul class="ticks intent-ticks" data-reveal style="--delay:0.1s">
+        <li>Geen vervanging van Somtoday of van je school — wel een app in plaats van losse browsertabs</li>
+        <li>Onofficieel en open source; niet van Somtoday zelf</li>
+        <li>Gratis te downloaden, met plugins voor rooster, cijfers en huiswerk</li>
+      </ul>
+      <a class="text-link" href={href("/faq/")} data-reveal style="--delay:0.15s">Meer over Cyfers en Somtoday</a>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="plugins">
+    <div class="wrap split plugins">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
         <h2 id="plugins">Plugins die meegroeien</h2>
         <p>
           Kies zelf wat je in Cyfers wilt. Installeren gaat met één klik vanuit de marketplace, zonder zip-bestanden
@@ -119,10 +141,10 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section" aria-labelledby="inloggen">
+  <section class="section tint" aria-labelledby="inloggen">
     <div class="wrap">
       <div class="section-head" data-reveal>
-        <span class="marker">03</span>
+        <span class="marker">04</span>
         <h2 id="inloggen">Inloggen zoals op school</h2>
         <p>Werkt met je bestaande Somtoday-account. Je kiest je school en logt in zoals je gewend bent.</p>
       </div>
@@ -139,11 +161,11 @@ const jsonLd = {
     </div>
   </section>
 
-  <section class="section tint" aria-labelledby="gegevens">
+  <section class="section" aria-labelledby="gegevens">
     <div class="wrap">
       <div class="split trust-head">
         <div class="section-head" data-reveal>
-          <span class="marker">04</span>
+          <span class="marker">05</span>
           <h2 id="gegevens">Jouw gegevens blijven van jou</h2>
         </div>
         <div data-reveal style="--delay:0.1s">
@@ -310,6 +332,20 @@ const jsonLd = {
 
   .trust-link {
     margin-top: 1.5rem;
+  }
+
+  .intent-block {
+    display: grid;
+    gap: 1.25rem;
+    max-width: 46rem;
+  }
+
+  .intent-block .section-head {
+    max-width: none;
+  }
+
+  .intent-ticks {
+    margin: 0;
   }
 
   @media (max-width: 900px) {
