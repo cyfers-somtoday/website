@@ -15,6 +15,14 @@ const groups: { title: string; items: Item[] }[] = [
         a: "Nee. Cyfers is een onofficiële, onafhankelijke app. Je logt wel in via de officiële Somtoday-login en Cyfers laat dezelfde gegevens zien als Somtoday zelf.",
       },
       {
+        q: "Is Cyfers een alternatief voor Somtoday?",
+        a: "Cyfers vervangt Somtoday of je school niet. Het is een onofficiële desktop-app waarmee je dezelfde Somtoday-gegevens opent — rooster, cijfers, huiswerk — in een eigen venster op je computer, als alternatief voor alleen de browser.",
+      },
+      {
+        q: "Is er een desktop-app voor Somtoday?",
+        a: "Cyfers is een onafhankelijke, onofficiële desktop-app voor Somtoday op Windows, macOS en Linux — niet van Somtoday zelf. Je logt in met je bestaande Somtoday-account of school-login. <a href=\"" + href("/download/") + "\">Download Cyfers</a>.",
+      },
+      {
         q: "Werkt Cyfers met mijn school?",
         a: "Als je school Somtoday gebruikt, kun je inloggen zoals je gewend bent: met je wachtwoord of via de login van je school. Lukt het niet? Meld het op <a href=\"" + repos.issues + "\">GitHub</a>.",
       },
@@ -95,7 +103,7 @@ const jsonLd = {
 
 <Base
   title="Veelgestelde vragen — Cyfers"
-  description="Antwoorden over Cyfers: is het van Somtoday, werkt het met je school, is het veilig, wat zijn plugins en wat als Windows of macOS de installatie blokkeert?"
+  description="Is Cyfers een Somtoday-alternatief? Is er een Somtoday-desktop-app? Antwoorden over school-login, veiligheid, plugins en installatie op Windows, Mac en Linux."
   current="/faq/"
   jsonLd={jsonLd}
 >

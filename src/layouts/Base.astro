@@ -17,7 +17,7 @@ interface Props {
 const { title, description, current, robots, jsonLd } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
 const ogImage = new URL(href("/og.jpg"), Astro.site);
-const ogImageAlt = "Cyfers — Somtoday op je desktop";
+const ogImageAlt = "Cyfers — Desktop-app voor Somtoday";
 ---
 
 <!doctype html>
