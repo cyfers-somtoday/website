@@ -11,43 +11,12 @@ const plugins = [
   { name: "Rooster", kind: "Pagina", text: "Je week van maandag tot vrijdag op een tijdlijn, met een lijn voor ‘nu’." },
   { name: "Huiswerk", kind: "Pagina", text: "Huiswerk per dag in een weekkalender. Klaar? Vink het af." },
 ];
-
-const siteUrl = Astro.site?.href ?? "https://cyfers.dev/";
-const appDescription =
-  "Onofficiële desktop-app voor Somtoday: rooster, cijfers en huiswerk op Windows, macOS en Linux. Een rustig alternatief voor Somtoday in de browser, met plugins.";
-
-const jsonLd = {
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebSite",
-      name: "Cyfers",
-      url: siteUrl,
-      description:
-        "Cyfers is een gratis, onofficiële desktop-app voor Somtoday. Rooster, cijfers en huiswerk op je computer, uit te breiden met plugins.",
-      inLanguage: "nl",
-      publisher: { "@type": "Organization", name: "Cyfers", url: siteUrl },
-    },
-    {
-      "@type": "SoftwareApplication",
-      name: "Cyfers",
-      url: siteUrl,
-      applicationCategory: "EducationalApplication",
-      operatingSystem: "Windows, macOS, Linux",
-      description: appDescription,
-      offers: { "@type": "Offer", price: "0", priceCurrency: "EUR" },
-      downloadUrl: repos.releases,
-      inLanguage: "nl",
-    },
-  ],
-};
 ---
 
 <Base
   title="Cyfers — Desktop-app voor Somtoday"
   description="Cyfers is een gratis, onofficiële desktop-app voor Somtoday. Rooster, cijfers en huiswerk op Windows, Mac en Linux — een rustig alternatief voor Somtoday in de browser, met plugins."
   current="/"
-  jsonLd={jsonLd}
 >
   <section class="hero atmosphere">
     <div class="wrap hero-grid">
