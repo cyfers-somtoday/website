@@ -79,7 +79,11 @@ const plugins = [
         <li>Onofficieel en open source; niet van Somtoday zelf</li>
         <li>Gratis te downloaden, met plugins voor rooster, cijfers en huiswerk</li>
       </ul>
-      <a class="text-link" href={href("/faq/")} data-reveal style="--delay:0.15s">Meer over Cyfers en Somtoday</a>
+      <div class="intent-links" data-reveal style="--delay:0.15s">
+        <a class="text-link" href={href("/somtoday-desktop-app/")}>Somtoday desktop app</a>
+        <a class="text-link" href={href("/somtoday-alternatief/")}>Desktopalternatief uitgelegd</a>
+        <a class="text-link" href={href("/faq/")}>Meer over Cyfers en Somtoday</a>
+      </div>
     </div>
   </section>
 
@@ -315,6 +319,12 @@ const plugins = [
 
   .intent-ticks {
     margin: 0;
+  }
+
+  .intent-links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.85rem 1.5rem;
   }
 
   @media (max-width: 900px) {

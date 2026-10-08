@@ -1,0 +1,308 @@
+---
+import Base from "../layouts/Base.astro";
+import LandingFaq from "../components/LandingFaq.astro";
+import LandingRelated from "../components/LandingRelated.astro";
+import CtaStrip from "../components/CtaStrip.astro";
+import { href } from "../site";
+
+const faq = [
+  {
+    q: "Is er een Somtoday desktop app?",
+    a: "Cyfers is een gratis, onofficiële desktop-app voor Somtoday op Windows, macOS en Linux. Het is niet van Somtoday zelf. Je logt in met je bestaande schoolaccount. <a href=\"" + href("/download/") + "\">Download Cyfers</a>.",
+  },
+  {
+    q: "Is Cyfers gratis?",
+    a: "Ja. Cyfers is gratis te downloaden en te gebruiken. De broncode staat openbaar op GitHub.",
+  },
+  {
+    q: "Is Cyfers officieel?",
+    a: "Nee. Cyfers is onofficieel en onafhankelijk — niet gemaakt door of verbonden aan Somtoday of je school. Je gebruikt wel de officiële Somtoday-login en ziet dezelfde gegevens als in de browser.",
+  },
+  {
+    q: "Welke besturingssystemen worden ondersteund?",
+    a: "Windows 10 of nieuwer (64-bit), macOS (Apple silicon en Intel) en Linux (x86-64 via AppImage of .deb). Details per platform: <a href=\"" + href("/somtoday-windows/") + "\">Windows</a>, <a href=\"" + href("/somtoday-mac/") + "\">Mac</a> en <a href=\"" + href("/somtoday-linux/") + "\">Linux</a>.",
+  },
+  {
+    q: "Heb ik een apart account nodig?",
+    a: "Nee. Je logt in met je bestaande Somtoday-account of via de login van je school (SSO). Cyfers maakt geen eigen schoolaccount aan.",
+  },
+];
+
+const strip = (html: string) => html.replace(/<[^>]+>/g, "");
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: strip(item.a) },
+  })),
+};
+---
+
+<Base
+  title="Somtoday desktop app — Cyfers"
+  description="Cyfers is een gratis, onofficiële Somtoday desktop app voor Windows, Mac en Linux. Rooster, cijfers en huiswerk in één venster — zonder losse browsertabs."
+  jsonLd={jsonLd}
+>
+  <header class="page-hero atmosphere seo-hero">
+    <div class="wrap">
+      <h1>Somtoday desktop app</h1>
+      <p class="lede">
+        Cyfers is een gratis, onofficiële desktop-app voor Somtoday. Voor leerlingen die rooster, cijfers en huiswerk
+        liever in één rustig venster op hun computer zien — in plaats van alleen in de browser.
+      </p>
+      <div class="btn-row hero-cta">
+        <a class="btn btn-primary" href={href("/download/")}>
+          Download Cyfers
+          <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+            ><path d="M10 3v10M5 9l5 5 5-5M4 17h12"></path></svg
+          >
+        </a>
+        <a class="btn btn-ghost" href={href("/features/")}>Bekijk features</a>
+      </div>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="platforms">
+    <div class="wrap split">
+      <div class="section-head" data-reveal>
+        <span class="marker">01</span>
+        <h2 id="platforms">Op Windows, Mac en Linux</h2>
+        <p>
+          Download de installer voor jouw computer. Updates komen waar mogelijk via een melding in de app — jij klikt
+          op Installeren wanneer het jou uitkomt.
+        </p>
+      </div>
+      <ul class="os-list" data-reveal style="--delay:0.1s">
+        <li>
+          <a href={href("/somtoday-windows/")}>
+            <strong>Windows</strong>
+            <span>Installer (.exe) · Windows 10 of nieuwer, 64-bit</span>
+          </a>
+        </li>
+        <li>
+          <a href={href("/somtoday-mac/")}>
+            <strong>macOS</strong>
+            <span>DMG of zip · Apple silicon en Intel</span>
+          </a>
+        </li>
+        <li>
+          <a href={href("/somtoday-linux/")}>
+            <strong>Linux</strong>
+            <span>AppImage of .deb · x86-64</span>
+          </a>
+        </li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="features">
+    <div class="wrap split">
+      <div class="section-head" data-reveal>
+        <span class="marker">02</span>
+        <h2 id="features">Wat je ermee doet</h2>
+        <p>
+          Cyfers is een shell met een zijbalk. Bovenaan staat Overzicht met widgets; daaronder kies jij welke plugins
+          je wilt — rooster, cijfers, huiswerk en meer via de marketplace in de app.
+        </p>
+      </div>
+      <ul class="ticks" data-reveal style="--delay:0.1s">
+        <li>Inloggen met je bestaande Somtoday-account of school-login (SSO)</li>
+        <li>Plugins voor rooster, cijfers en huiswerk — jij kiest wat erin komt</li>
+        <li>Sessie versleuteld op je eigen computer; plugins krijgen nooit je token</li>
+        <li>Gratis en open source op GitHub</li>
+      </ul>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="waarom">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
+        <h2 id="waarom">Waarom een desktop-app?</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Somtoday in de browser werkt, maar verspreidt je schooldag over tabs en vensters. Cyfers houdt rooster,
+          cijfers en huiswerk in één app op je computer — handig als je toch al achter een laptop of pc zit.
+        </p>
+        <p>
+          Het is geen snellere of “betere” Somtoday: het is dezelfde schoolgegevens, in een eigen venster dat jij
+          beheert. Geen aparte webversie van Cyfers — alleen de desktop-app.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="relatie">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">04</span>
+        <h2 id="relatie">Cyfers en Somtoday</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Cyfers is onofficieel en onafhankelijk. Het is niet gemaakt door of verbonden aan Somtoday of je school. Je
+          logt in via de officiële Somtoday-login; Cyfers toont dezelfde gegevens die Somtoday levert.
+        </p>
+        <p>
+          Zonder Somtoday of je schoolaccount werkt Cyfers niet. Het vervangt het schoolplatform niet — het is een
+          desktop-manier om die gegevens te openen. Meer nuance: zie{" "}
+          <a href={href("/somtoday-alternatief/")}>desktopalternatief voor Somtoday</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="vergelijk">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="marker">05</span>
+        <h2 id="vergelijk">Cyfers versus de browser</h2>
+        <p>Kort en eerlijk — zonder beloftes over snelheid of volledigheid.</p>
+      </div>
+      <div class="compare" data-reveal style="--delay:0.1s">
+        <div>
+          <h3>Somtoday in de browser</h3>
+          <ul class="ticks">
+            <li>Officiële webomgeving van Somtoday</li>
+            <li>Werkt op elk apparaat met een browser</li>
+            <li>Alles wat je school via Somtoday aanbiedt</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cyfers op je desktop</h3>
+          <ul class="ticks">
+            <li>Eigen venster op Windows, macOS of Linux</li>
+            <li>Plugins die jij kiest (rooster, cijfers, huiswerk, …)</li>
+            <li>Zelfde login en schoolgegevens; geen eigen account</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <LandingFaq items={faq} />
+
+  <LandingRelated
+    heading="Per platform en meer"
+    links={[
+      {
+        path: "/somtoday-windows/",
+        label: "Somtoday voor Windows",
+        detail: "Installer, SmartScreen-waarschuwing en updates.",
+      },
+      {
+        path: "/somtoday-mac/",
+        label: "Somtoday op macOS",
+        detail: "DMG of zip, Apple silicon en Intel, eerste start.",
+      },
+      {
+        path: "/somtoday-linux/",
+        label: "Somtoday op Linux",
+        detail: "AppImage of .deb voor x86-64.",
+      },
+      {
+        path: "/somtoday-alternatief/",
+        label: "Desktopalternatief voor Somtoday",
+        detail: "Wat Cyfers wél en niet vervangt.",
+      },
+    ]}
+  />
+
+  <CtaStrip
+    heading="Klaar om te downloaden?"
+    text="Gratis voor Windows, macOS en Linux. Log in met je bestaande Somtoday-account."
+  />
+</Base>
+
+<style>
+  .seo-hero h1 {
+    max-width: 16ch;
+  }
+
+  .hero-cta {
+    margin-top: 2rem;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .two-col h2 {
+    color: var(--navy);
+  }
+
+  .os-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    border-top: 1.5px solid var(--navy);
+  }
+
+  .os-list li a {
+    display: grid;
+    gap: 0.35rem;
+    padding-block: 1.35rem;
+    border-bottom: 1px solid var(--line);
+    text-decoration: none;
+    color: inherit;
+  }
+
+  .os-list strong {
+    font: 700 clamp(1.5rem, 2.6vw, 2rem) / 1.1 var(--font-display);
+    color: var(--navy);
+  }
+
+  .os-list span {
+    color: var(--muted);
+  }
+
+  .os-list a:hover strong {
+    color: var(--accent-strong);
+  }
+
+  .compare {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    border-top: 1.5px solid var(--navy);
+    padding-top: 2rem;
+  }
+
+  .compare h3 {
+    margin-bottom: 1rem;
+    color: var(--navy);
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  }
+
+  .prose p,
+  .prose a {
+    color: var(--muted);
+  }
+
+  .prose a {
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .two-col,
+    .compare {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

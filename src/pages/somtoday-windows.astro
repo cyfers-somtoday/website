@@ -1,0 +1,198 @@
+---
+import Base from "../layouts/Base.astro";
+import LandingFaq from "../components/LandingFaq.astro";
+import LandingRelated from "../components/LandingRelated.astro";
+import PlatformDownload from "../components/PlatformDownload.astro";
+import { href } from "../site";
+
+const faq = [
+  {
+    q: "Werkt Cyfers op Windows 10 en 11?",
+    a: "Ja. De Windows-build is voor Windows 10 of nieuwer, 64-bit. Download de .exe-installer vanaf de <a href=\"" + href("/download/#windows") + "\">downloadpagina</a> of via de knop hierboven.",
+  },
+  {
+    q: "Waarom blokkeert Windows de installatie?",
+    a: "Cyfers is nog niet ondertekend met een Microsoft-certificaat. Zie je ‘Windows heeft uw pc beschermd’? Klik op <strong>Meer informatie</strong> en daarna op <strong>Toch uitvoeren</strong>. Dat is normaal voor kleine, onafhankelijke apps. Zie ook de <a href=\"" + href("/download/#updates") + "\">downloadpagina</a>.",
+  },
+  {
+    q: "Hoe krijg ik updates op Windows?",
+    a: "Updates komen binnen in de app: je krijgt een melding en klikt op <strong>Installeren</strong>. Er wordt niets stilzwijgend geïnstalleerd bij het afsluiten.",
+  },
+  {
+    q: "Heb ik een apart Somtoday-account nodig?",
+    a: "Nee. Gebruik je bestaande schoolaccount of school-login (SSO), net als in de browser.",
+  },
+];
+
+const strip = (html: string) => html.replace(/<[^>]+>/g, "");
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: strip(item.a) },
+  })),
+};
+---
+
+<Base
+  title="Somtoday-app voor Windows — Cyfers"
+  description="Download Cyfers, de gratis onofficiële Somtoday-app voor Windows 10 en 11. Rooster, cijfers en huiswerk in één desktopvenster — met je bestaande schoolaccount."
+  jsonLd={jsonLd}
+>
+  <header class="page-hero atmosphere seo-hero">
+    <div class="wrap">
+      <h1>Somtoday-app voor Windows</h1>
+      <p class="lede">
+        Met Cyfers open je Somtoday in een eigen venster op je Windows-pc: rooster, cijfers en huiswerk via plugins,
+        zonder een stapel browsertabs. Gratis, onofficieel en open source.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="download">
+    <div class="wrap split">
+      <div class="section-head" data-reveal>
+        <span class="marker">01</span>
+        <h2 id="download">Downloaden voor Windows</h2>
+        <p>
+          De Windows-build is een .exe-installer voor 64-bit Windows 10 of nieuwer. Na de installatie kies je je school
+          en log je in zoals je gewend bent.
+        </p>
+      </div>
+      <PlatformDownload
+        asset="exe"
+        label="Download voor Windows"
+        note="Windows 10 of nieuwer, 64-bit"
+        fileHint=".exe-installer"
+      />
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="install">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">02</span>
+        <h2 id="install">Installeren en starten</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <ol>
+          <li>Download de .exe en open hem vanuit je map Downloads.</li>
+          <li>
+            Krijg je een SmartScreen-melding? Kies <strong>Meer informatie</strong> → <strong>Toch uitvoeren</strong>.
+            Cyfers is nog niet digitaal ondertekend.
+          </li>
+          <li>Volg de installer en start Cyfers.</li>
+          <li>Kies je school en log in met wachtwoord of via de login van je school.</li>
+          <li>Ga naar Plugins en installeer bijvoorbeeld Rooster, Cijfers of Huiswerk.</li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gebruik">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
+        <h2 id="gebruik">Op je Windows-desktop</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Cyfers blijft een venster naast je andere apps — handig als je toch al huiswerk maakt of een werkstuk schrijft
+          op je pc. Overzicht toont widgets; pagina-plugins verschijnen in de zijbalk.
+        </p>
+        <p>
+          Je sessie staat versleuteld op je eigen computer. Plugins krijgen nooit je token of wachtwoord. Cyfers
+          verzamelt geen statistieken en heeft geen eigen cloudserver voor je schoolgegevens.
+        </p>
+        <p>
+          Meer over wat erin zit: <a href={href("/features/")}>features</a>. Algemene context:
+          <a href={href("/somtoday-desktop-app/")}>Somtoday desktop app</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <LandingFaq heading="Windows: veelgestelde vragen" items={faq} />
+
+  <LandingRelated
+    heading="Andere platforms"
+    links={[
+      {
+        path: "/somtoday-desktop-app/",
+        label: "Somtoday desktop app",
+        detail: "Het overzicht: wat Cyfers is en voor wie.",
+      },
+      {
+        path: "/somtoday-mac/",
+        label: "Somtoday op macOS",
+        detail: "DMG, zip en eerste start op de Mac.",
+      },
+      {
+        path: "/somtoday-linux/",
+        label: "Somtoday op Linux",
+        detail: "AppImage of .deb voor x86-64.",
+      },
+      {
+        path: "/download/",
+        label: "Alle downloads",
+        detail: "Windows, macOS en Linux naast elkaar.",
+      },
+    ]}
+  />
+</Base>
+
+<style>
+  .seo-hero h1 {
+    max-width: 14ch;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .two-col h2 {
+    color: var(--navy);
+  }
+
+  .prose ol {
+    padding-left: 1.2rem;
+    color: var(--muted);
+  }
+
+  .prose li + li {
+    margin-top: 0.65rem;
+  }
+
+  .prose p,
+  .prose a {
+    color: var(--muted);
+  }
+
+  .prose a {
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  .prose strong {
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
