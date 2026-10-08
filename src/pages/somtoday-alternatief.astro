@@ -1,0 +1,209 @@
+---
+import Base from "../layouts/Base.astro";
+import LandingFaq from "../components/LandingFaq.astro";
+import LandingRelated from "../components/LandingRelated.astro";
+import CtaStrip from "../components/CtaStrip.astro";
+import { href, repos } from "../site";
+
+const faq = [
+  {
+    q: "Is Cyfers een complete vervanging van Somtoday?",
+    a: "Nee. Cyfers vervangt Somtoday of het systeem van je school niet. Het is een onofficiële desktop-app die dezelfde Somtoday-gegevens opent in een eigen venster. Zonder Somtoday werkt Cyfers niet.",
+  },
+  {
+    q: "Heb ik mijn bestaande account nodig?",
+    a: "Ja. Je logt in met je Somtoday-account of via de login van je school. Cyfers maakt geen apart schoolaccount.",
+  },
+  {
+    q: "Wat gebeurt er als Somtoday niet bereikbaar is?",
+    a: "Dan kan Cyfers geen actuele schoolgegevens ophalen. Cyfers heeft geen eigen kopie van het schoolplatform in de cloud; het praat via jouw sessie met Somtoday.",
+  },
+  {
+    q: "Is Cyfers gratis en open source?",
+    a: "Ja. Downloaden is gratis. De broncode staat op <a href=\"" + repos.app + "\">GitHub</a>. Cyfers is onofficieel — niet van Somtoday.",
+  },
+];
+
+const strip = (html: string) => html.replace(/<[^>]+>/g, "");
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: strip(item.a) },
+  })),
+};
+---
+
+<Base
+  title="Somtoday alternatief op de desktop — Cyfers"
+  description="Zoek je een Somtoday-alternatief? Cyfers is geen vervanging van Somtoday, maar een gratis onofficiële desktop-app: dezelfde schoolgegevens in één venster op Windows, Mac of Linux."
+  jsonLd={jsonLd}
+>
+  <header class="page-hero atmosphere seo-hero">
+    <div class="wrap">
+      <h1>Een desktopalternatief voor Somtoday</h1>
+      <p class="lede">
+        Cyfers vervangt Somtoday of je school <strong>niet</strong>. Het is een onafhankelijke desktop-app: je opent
+        dezelfde Somtoday-gegevens — rooster, cijfers, huiswerk via plugins — in een eigen venster, als alternatief
+        voor alleen de browser.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="wat">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">01</span>
+        <h2 id="wat">Wat er wél verandert</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          In plaats van losse browsertabs krijg je één Cyfers-venster met Overzicht, een zijbalk en plugins die jij
+          kiest. Inloggen blijft via Somtoday of school-SSO. Geen nieuw schoolaccount, geen “tweede Somtoday”.
+        </p>
+        <ul class="ticks">
+          <li>Desktop op Windows, macOS en Linux</li>
+          <li>Plugins en marketplace in de app</li>
+          <li>Sessie lokaal versleuteld; plugins zonder tokens</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="vergelijk">
+    <div class="wrap">
+      <div class="section-head" data-reveal>
+        <span class="marker">02</span>
+        <h2 id="vergelijk">Browser versus Cyfers</h2>
+        <p>Beide gebruiken je schoolaccount. Het verschil zit in hoe je de gegevens opent.</p>
+      </div>
+      <div class="compare" data-reveal style="--delay:0.1s">
+        <div>
+          <h3>Somtoday in de browser</h3>
+          <ul class="ticks">
+            <li>Officiële webomgeving</li>
+            <li>Op telefoon, tablet of computer</li>
+            <li>Volledige schoolfunctionaliteit die Somtoday daar aanbiedt</li>
+          </ul>
+        </div>
+        <div>
+          <h3>Cyfers (desktop)</h3>
+          <ul class="ticks">
+            <li>Onofficiële companion-app</li>
+            <li>Alleen Windows, macOS of Linux (geen webversie)</li>
+            <li>Focus op plugins zoals rooster, cijfers en huiswerk</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="afhankelijk">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
+        <h2 id="afhankelijk">Wat bij Somtoday blijft</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Accounts, schoolkeuze, roosterdata, cijfers en rechten komen van Somtoday en je school. Cyfers stuurt
+          verzoeken door; het host geen parallel schoolplatform. Is Somtoday of je school-login down, dan heeft Cyfers
+          geen actuele data.
+        </p>
+        <p>
+          Cyfers is gratis, open source, en niet verbonden aan Somtoday. Privacy: geen eigen analytics-server voor jouw
+          cijfers — zie <a href={href("/privacy/")}>privacy</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <LandingFaq items={faq} />
+
+  <LandingRelated
+    heading="Verder lezen"
+    links={[
+      {
+        path: "/somtoday-desktop-app/",
+        label: "Somtoday desktop app",
+        detail: "Het startpunt: wat Cyfers is en hoe je downloadt.",
+      },
+      {
+        path: "/somtoday-windows/",
+        label: "Somtoday voor Windows",
+        detail: "Installer en eerste start op de pc.",
+      },
+      {
+        path: "/somtoday-mac/",
+        label: "Somtoday op macOS",
+        detail: "Mac-download en beveiligingsmelding.",
+      },
+      {
+        path: "/somtoday-linux/",
+        label: "Somtoday op Linux",
+        detail: "AppImage of .deb.",
+      },
+    ]}
+  />
+
+  <CtaStrip
+    heading="Desktop proberen?"
+    text="Download Cyfers gratis. Geen vervanging van Somtoday — wel een rustig venster op je computer."
+  />
+</Base>
+
+<style>
+  .seo-hero h1 {
+    max-width: 16ch;
+  }
+
+  .seo-hero .lede strong {
+    color: var(--ink);
+    font-weight: 600;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .two-col h2 {
+    color: var(--navy);
+  }
+
+  .compare {
+    margin-top: clamp(2rem, 4vw, 3rem);
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: clamp(1.5rem, 4vw, 3rem);
+    border-top: 1.5px solid var(--navy);
+    padding-top: 2rem;
+  }
+
+  .compare h3 {
+    margin-bottom: 1rem;
+    color: var(--navy);
+    font-size: clamp(1.35rem, 2.4vw, 1.75rem);
+  }
+
+  .prose p,
+  .prose a {
+    color: var(--muted);
+  }
+
+  .prose a {
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  @media (max-width: 900px) {
+    .two-col,
+    .compare {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

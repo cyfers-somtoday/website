@@ -1,0 +1,211 @@
+---
+import Base from "../layouts/Base.astro";
+import LandingFaq from "../components/LandingFaq.astro";
+import LandingRelated from "../components/LandingRelated.astro";
+import PlatformDownload from "../components/PlatformDownload.astro";
+import { href } from "../site";
+
+const faq = [
+  {
+    q: "Welke Linux-architectuur wordt ondersteund?",
+    a: "De gepubliceerde Linux-builds zijn voor x86-64. Er is een AppImage (werkt op de meeste distributies) en een .deb voor Debian/Ubuntu-achtige systemen.",
+  },
+  {
+    q: "AppImage of .deb — wat is handiger?",
+    a: "Met de AppImage werkt Cyfers zichzelf bij via een melding in de app (na jouw klik op Installeren). De .deb installeer je met je pakketbeheerder; die werk je zelf bij door een nieuwe .deb te installeren. Zie <a href=\"" + href("/download/#updates") + "\">Download</a>.",
+  },
+  {
+    q: "Hoe start ik de AppImage?",
+    a: "Maak het bestand uitvoerbaar (<code>chmod +x Cyfers-*.AppImage</code>) en start het. Werkt de knop op de site niet? Haal het bestand van de <a href=\"" + href("/download/") + "\">downloadpagina</a> of GitHub Releases.",
+  },
+  {
+    q: "Werkt Cyfers op elke Linux-distro?",
+    a: "Nee, dat claimen we niet. De AppImage is bedoeld voor de meeste x86-64-desktops; de .deb past bij Debian/Ubuntu. Andere installatiemethoden of architecturen staan niet op de downloadpagina tenzij ze daar expliciet verschijnen.",
+  },
+];
+
+const strip = (html: string) => html.replace(/<[^>]+>/g, "");
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: strip(item.a) },
+  })),
+};
+---
+
+<Base
+  title="Somtoday op Linux — Cyfers"
+  description="Cyfers brengt Somtoday naar Linux: gratis, onofficiële desktop-app als AppImage of .deb (x86-64). Rooster, cijfers en huiswerk in één venster."
+  jsonLd={jsonLd}
+>
+  <header class="page-hero atmosphere seo-hero">
+    <div class="wrap">
+      <h1>Somtoday op Linux</h1>
+      <p class="lede">
+        Geen officiële Somtoday-desktop van de leverancier? Cyfers is een onafhankelijke Electron-app voor Linux
+        (x86-64): log in met je schoolaccount en houd rooster, cijfers en huiswerk in één venster.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="download">
+    <div class="wrap split">
+      <div class="section-head" data-reveal>
+        <span class="marker">01</span>
+        <h2 id="download">Linux-downloads</h2>
+        <p>
+          Twee formaten vanaf GitHub Releases: AppImage (aanbevolen als je snelle updates in de app wilt) en .deb voor
+          Debian/Ubuntu.
+        </p>
+      </div>
+      <PlatformDownload
+        asset="appimage"
+        label="Download AppImage"
+        note="x86-64. AppImage werkt op de meeste distributies"
+        fileHint=".AppImage"
+        extra={[{ asset: "deb", label: ".deb voor Debian/Ubuntu" }]}
+      />
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="install">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">02</span>
+        <h2 id="install">Installeren</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <h3>AppImage</h3>
+        <ol>
+          <li>Download <code>Cyfers-*.AppImage</code>.</li>
+          <li>Maak uitvoerbaar: <code>chmod +x Cyfers-*.AppImage</code>.</li>
+          <li>Start het bestand; log in met je Somtoday- of school-login.</li>
+        </ol>
+        <h3>.deb (Debian/Ubuntu)</h3>
+        <ol>
+          <li>Download het .deb-bestand.</li>
+          <li>Installeer met <code>sudo apt install ./cyfers_*.deb</code> (of je grafische pakketinstaller).</li>
+          <li>Updates: download later een nieuwere .deb en installeer die opnieuw.</li>
+        </ol>
+        <p>
+          In-app updates (melding → Installeren) gelden voor de AppImage. De .deb werk je handmatig bij. We claimen
+          geen universele compatibiliteit met elke distro of ARM.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="waarom">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
+        <h2 id="waarom">Desktop op Linux</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Op Linux is Somtoday vooral een webservice in de browser. Cyfers geeft je een vast app-venster, plugins uit
+          een open marketplace, en dezelfde schoolgegevens — zonder dat Cyfers een eigen schoolserver is.
+        </p>
+        <p>
+          Open source, gratis, onofficieel. Sessies versleuteld lokaal; plugins zien geen tokens. Meer:
+          <a href={href("/somtoday-desktop-app/")}>Somtoday desktop app</a> en
+          <a href={href("/privacy/")}>privacy</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <LandingFaq heading="Linux: veelgestelde vragen" items={faq} />
+
+  <LandingRelated
+    heading="Andere platforms"
+    links={[
+      {
+        path: "/somtoday-desktop-app/",
+        label: "Somtoday desktop app",
+        detail: "Het centrale overzicht van Cyfers.",
+      },
+      {
+        path: "/somtoday-windows/",
+        label: "Somtoday voor Windows",
+        detail: ".exe-installer en SmartScreen.",
+      },
+      {
+        path: "/somtoday-mac/",
+        label: "Somtoday op macOS",
+        detail: "DMG, zip en Gatekeeper.",
+      },
+      {
+        path: "/download/",
+        label: "Alle downloads",
+        detail: "Windows, macOS en Linux.",
+      },
+    ]}
+  />
+</Base>
+
+<style>
+  .seo-hero h1 {
+    max-width: 12ch;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .two-col h2 {
+    color: var(--navy);
+  }
+
+  .prose h3 {
+    margin-top: 1.5rem;
+    color: var(--navy);
+  }
+
+  .prose h3:first-child {
+    margin-top: 0;
+  }
+
+  .prose ol {
+    padding-left: 1.2rem;
+    color: var(--muted);
+  }
+
+  .prose li + li {
+    margin-top: 0.55rem;
+  }
+
+  .prose p,
+  .prose a {
+    color: var(--muted);
+  }
+
+  .prose a {
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  .prose code {
+    font-size: 0.92em;
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

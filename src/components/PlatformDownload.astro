@@ -1,0 +1,116 @@
+---
+import { releaseApi, repos } from "../site";
+
+type AssetKey = "exe" | "dmg" | "maczip" | "appimage" | "deb";
+
+interface Extra {
+  asset: AssetKey;
+  label: string;
+}
+
+interface Props {
+  /** Primary GitHub asset key resolved from the latest release. */
+  asset: AssetKey;
+  label: string;
+  note: string;
+  fileHint: string;
+  extra?: Extra[];
+}
+
+const { asset, label, note, fileHint, extra = [] } = Astro.props;
+---
+
+<div class="download-box" data-reveal>
+  <p class="note">{note}</p>
+  <a class="btn btn-primary" href={repos.releases} data-asset={asset}>
+    {label}
+    <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
+      ><path d="M10 3v10M5 9l5 5 5-5M4 17h12"></path></svg
+    >
+  </a>
+  <p class="file">
+    {fileHint}
+    <span data-size={asset}></span>
+  </p>
+  {
+    extra.length > 0 && (
+      <p class="extra">
+        Of:{" "}
+        {extra.map((x) => (
+          <a href={repos.releases} data-asset={x.asset}>
+            {x.label}
+          </a>
+        ))}
+      </p>
+    )
+  }
+  <p class="fallback">
+    Werkt de knop niet? Alle bestanden staan op de <a href={repos.releases}>releasepagina op GitHub</a>.
+  </p>
+</div>
+
+<script define:vars={{ releaseApi }}>
+  const patterns = {
+    exe: /\.exe$/i,
+    dmg: /\.dmg$/i,
+    maczip: /-mac\.zip$/i,
+    appimage: /\.AppImage$/i,
+    deb: /\.deb$/i,
+  };
+
+  fetch(releaseApi, { headers: { Accept: "application/vnd.github+json" } })
+    .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+    .then((release) => {
+      for (const [key, re] of Object.entries(patterns)) {
+        const asset = release.assets.find((a) => re.test(a.name));
+        if (!asset) continue;
+        document.querySelectorAll(`[data-asset="${key}"]`).forEach((a) => {
+          a.setAttribute("href", asset.browser_download_url);
+        });
+        document.querySelectorAll(`[data-size="${key}"]`).forEach((size) => {
+          size.textContent = ` · ${Math.round(asset.size / 1e6)} MB`;
+        });
+      }
+    })
+    .catch(() => {});
+</script>
+
+<style>
+  .download-box {
+    display: grid;
+    gap: 0.85rem;
+    align-content: start;
+    max-width: 28rem;
+    padding: 1.75rem;
+    border: 1.5px solid var(--navy);
+    border-radius: 16px;
+    background: var(--paper);
+  }
+
+  .note {
+    color: var(--muted);
+  }
+
+  .btn {
+    justify-content: center;
+  }
+
+  .file,
+  .extra,
+  .fallback {
+    font-size: 0.92rem;
+    color: var(--muted);
+  }
+
+  .extra a {
+    font-weight: 600;
+  }
+
+  .extra a + a::before {
+    content: " · ";
+  }
+
+  .fallback a {
+    font-weight: 600;
+  }
+</style>

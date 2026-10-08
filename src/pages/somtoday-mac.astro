@@ -1,0 +1,202 @@
+---
+import Base from "../layouts/Base.astro";
+import LandingFaq from "../components/LandingFaq.astro";
+import LandingRelated from "../components/LandingRelated.astro";
+import PlatformDownload from "../components/PlatformDownload.astro";
+import { href } from "../site";
+
+const faq = [
+  {
+    q: "Werkt Cyfers op Apple silicon en Intel?",
+    a: "Ja. De macOS-build is universeel: geschikt voor Apple silicon én Intel. Download de .dmg (of de .zip-variant) vanaf de <a href=\"" + href("/download/#mac") + "\">downloadpagina</a>.",
+  },
+  {
+    q: "macOS wil Cyfers niet openen. Wat nu?",
+    a: "Cyfers is nog niet ondertekend met een Apple-certificaat. Ga naar <strong>Systeeminstellingen → Privacy en beveiliging</strong>, scrol naar de melding over Cyfers en kies daar om de app toch te openen. Dat hoeft maar één keer. Zie <a href=\"" + href("/download/#updates") + "\">Download</a>.",
+  },
+  {
+    q: "DMG of zip — wat kies ik?",
+    a: "De .dmg is de gebruikelijke installatie: open het schijfbeeld en sleep Cyfers naar Apps. De .zip is een alternatief als je liever een uitgepakte app hebt. Beide komen van dezelfde GitHub-release.",
+  },
+  {
+    q: "Hoe werken updates op de Mac?",
+    a: "Je krijgt een melding in de app en klikt op <strong>Installeren</strong>. Er wordt niets automatisch geïnstalleerd zonder die klik.",
+  },
+];
+
+const strip = (html: string) => html.replace(/<[^>]+>/g, "");
+const jsonLd = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faq.map((item) => ({
+    "@type": "Question",
+    name: item.q,
+    acceptedAnswer: { "@type": "Answer", text: strip(item.a) },
+  })),
+};
+---
+
+<Base
+  title="Somtoday-app voor Mac — Cyfers"
+  description="Cyfers is een gratis, onofficiële Somtoday-app voor Mac (Apple silicon en Intel). Rooster, cijfers en huiswerk in één desktopvenster op macOS."
+  jsonLd={jsonLd}
+>
+  <header class="page-hero atmosphere seo-hero">
+    <div class="wrap">
+      <h1>Somtoday-app voor Mac</h1>
+      <p class="lede">
+        Zoek je Somtoday op de Mac of macOS? Cyfers is een onofficiële desktop-app waarmee je met je bestaande
+        schoolaccount inlogt en rooster, cijfers en huiswerk in één venster houdt — naast je andere Mac-apps.
+      </p>
+    </div>
+  </header>
+
+  <section class="section" aria-labelledby="download">
+    <div class="wrap split">
+      <div class="section-head" data-reveal>
+        <span class="marker">01</span>
+        <h2 id="download">Downloaden voor macOS</h2>
+        <p>
+          Universele build voor Apple silicon en Intel. Meestal gebruik je de .dmg; er is ook een .zip als je die
+          liever hebt.
+        </p>
+      </div>
+      <PlatformDownload
+        asset="dmg"
+        label="Download voor macOS"
+        note="Apple silicon en Intel (universal)"
+        fileHint=".dmg"
+        extra={[{ asset: "maczip", label: ".zip-versie" }]}
+      />
+    </div>
+  </section>
+
+  <section class="section tint" aria-labelledby="install">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">02</span>
+        <h2 id="install">Installeren op de Mac</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <ol>
+          <li>Download de .dmg en open het schijfbeeld.</li>
+          <li>Sleep Cyfers naar de map Apps.</li>
+          <li>
+            Bij de eerste start kan macOS de app blokkeren. Ga naar <strong>Systeeminstellingen → Privacy en
+            beveiliging</strong> en kies om Cyfers toch te openen.
+          </li>
+          <li>Kies je school en log in met Somtoday of via school-login (SSO).</li>
+          <li>Installeer plugins die je wilt, zoals Rooster of Cijfers.</li>
+        </ol>
+        <p>
+          Unsigned builds kunnen Gatekeeper-waarschuwingen geven — dat hoort bij een kleine, onafhankelijke app zonder
+          Apple Developer-handtekening.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" aria-labelledby="gebruik">
+    <div class="wrap two-col">
+      <div class="section-head" data-reveal>
+        <span class="marker">03</span>
+        <h2 id="gebruik">Somtoday naast je Mac-workflow</h2>
+      </div>
+      <div class="prose" data-reveal style="--delay:0.1s">
+        <p>
+          Cyfers is een Electron-desktop-app: geen Safari-tab, maar een eigen venster met zijbalk en Overzicht. Handig
+          als je op je Mac werkt en je schooldag niet wilt verspreiden over browser-tabs.
+        </p>
+        <p>
+          Het blijft onofficieel: niet van Somtoday of je school. Zonder werkende Somtoday-login geen gegevens. Privacy
+          en sessies: zie de <a href={href("/privacy/")}>privacypagina</a>.
+        </p>
+        <p>
+          Startpunt voor alle platforms: <a href={href("/somtoday-desktop-app/")}>Somtoday desktop app</a>.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <LandingFaq heading="Mac: veelgestelde vragen" items={faq} />
+
+  <LandingRelated
+    heading="Andere platforms"
+    links={[
+      {
+        path: "/somtoday-desktop-app/",
+        label: "Somtoday desktop app",
+        detail: "Wat Cyfers is en hoe het zich verhoudt tot Somtoday.",
+      },
+      {
+        path: "/somtoday-windows/",
+        label: "Somtoday voor Windows",
+        detail: "Installer en SmartScreen op de pc.",
+      },
+      {
+        path: "/somtoday-linux/",
+        label: "Somtoday op Linux",
+        detail: "AppImage of .deb.",
+      },
+      {
+        path: "/download/",
+        label: "Alle downloads",
+        detail: "Windows, macOS en Linux.",
+      },
+    ]}
+  />
+</Base>
+
+<style>
+  .seo-hero h1 {
+    max-width: 12ch;
+  }
+
+  .split {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(2rem, 6vw, 5rem);
+    align-items: start;
+  }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+    gap: clamp(2rem, 6vw, 5.5rem);
+    align-items: start;
+  }
+
+  .two-col h2 {
+    color: var(--navy);
+  }
+
+  .prose ol {
+    padding-left: 1.2rem;
+    color: var(--muted);
+  }
+
+  .prose li + li {
+    margin-top: 0.65rem;
+  }
+
+  .prose p,
+  .prose a {
+    color: var(--muted);
+  }
+
+  .prose a {
+    font-weight: 600;
+    color: var(--accent-strong);
+  }
+
+  .prose strong {
+    color: var(--ink);
+  }
+
+  @media (max-width: 900px) {
+    .split,
+    .two-col {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

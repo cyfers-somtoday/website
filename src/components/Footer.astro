@@ -16,6 +16,7 @@ import { href, nav, repos } from "../site";
       <h2>Site</h2>
       <ul>
         {nav.map((item) => <li><a href={href(item.path)}>{item.label}</a></li>)}
+        <li><a href={href("/somtoday-desktop-app/")}>Somtoday desktop app</a></li>
       </ul>
     </nav>
 

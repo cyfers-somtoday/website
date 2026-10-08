@@ -8,9 +8,9 @@ interface Props {
 const { heading = "Beschikbaar op je eigen computer" } = Astro.props;
 
 const platforms = [
-  { name: "Windows", detail: "Installer (.exe)" },
-  { name: "macOS", detail: "DMG of zip · Apple silicon en Intel" },
-  { name: "Linux", detail: "AppImage of .deb" },
+  { name: "Windows", detail: "Installer (.exe)", path: "/somtoday-windows/" },
+  { name: "macOS", detail: "DMG of zip · Apple silicon en Intel", path: "/somtoday-mac/" },
+  { name: "Linux", detail: "AppImage of .deb", path: "/somtoday-linux/" },
 ];
 ---
 
@@ -21,7 +21,7 @@ const platforms = [
       {
         platforms.map((p, i) => (
           <li data-reveal style={`--delay:${0.1 + i * 0.12}s`}>
-            <a href={href("/download/")}>
+            <a href={href(p.path)}>
               <span class="name">{p.name}</span>
               <span class="detail">{p.detail}</span>
             </a>

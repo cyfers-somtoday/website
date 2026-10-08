@@ -16,6 +16,11 @@ one: the download page asks the GitHub API for the latest release.
 | `/download/` | Download (per-OS installers, steps, unsigned-build notes) |
 | `/privacy/` | Privacy & gegevens |
 | `/faq/` | Veelgestelde vragen |
+| `/somtoday-desktop-app/` | SEO hub: Somtoday desktop app |
+| `/somtoday-windows/` | Somtoday-app voor Windows |
+| `/somtoday-mac/` | Somtoday-app voor Mac / macOS |
+| `/somtoday-linux/` | Somtoday op Linux |
+| `/somtoday-alternatief/` | Desktopalternatief voor Somtoday (geen vervanging) |
 
 Also generated: `404.html`, `robots.txt`, `sitemap-index.xml`.
 
