@@ -5,7 +5,7 @@ export const GET: APIRoute = ({ site }) => {
   const sitemapIndex = new URL(`${base}/sitemap-index.xml`, site);
   const sitemapAlias = new URL(`${base}/sitemap.xml`, site);
   return new Response(
-    `User-agent: *\nAllow: /\n\nSitemap: ${sitemapIndex}\nSitemap: ${sitemapAlias}\n`,
+    `User-agent: Google-Extended\nAllow: /\n\nUser-agent: *\nAllow: /\n\nSitemap: ${sitemapIndex}\nSitemap: ${sitemapAlias}\n`,
     {
       headers: { "Content-Type": "text/plain; charset=utf-8" },
     },
