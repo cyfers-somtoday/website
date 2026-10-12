@@ -108,10 +108,11 @@ After the first deploy: add the site to Google Search Console and submit `sitema
 
 ## Downloads
 
-Installer file names contain the version, so the download page never hard-codes one. Buttons link
-to `releases/latest` on GitHub by default; a small script then asks the GitHub API for the latest
-release of `cyfers-somtoday/somtoday-login` and swaps in direct asset links, sizes and the version
-number. Without JavaScript (or if the API is rate-limited), the buttons still go to the release page.
+Primary download buttons hit `https://api.hijmanssam.dev/cyfers/downloads?platform=win|mac|lin`,
+which increments a counter and redirects to the matching latest GitHub release asset
+(`.exe` / `.dmg` / `.AppImage`). Alternate formats (mac `.zip`, Linux `.deb`) still resolve via
+the GitHub API to a direct asset URL. A small script also fills in file sizes and the release
+version from GitHub; without JavaScript, primary buttons still go through the downloads API.
 
 ## Assets
 

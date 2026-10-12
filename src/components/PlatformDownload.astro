@@ -1,7 +1,7 @@
 ---
-import { releaseApi, repos } from "../site";
+import { assetPlatform, downloadHref, releaseApi, repos, type TrackedAsset } from "../site";
 
-type AssetKey = "exe" | "dmg" | "maczip" | "appimage" | "deb";
+type AssetKey = TrackedAsset | "maczip" | "deb";
 
 interface Extra {
   asset: AssetKey;
@@ -9,8 +9,8 @@ interface Extra {
 }
 
 interface Props {
-  /** Primary GitHub asset key resolved from the latest release. */
-  asset: AssetKey;
+  /** Primary installer asset — routed through the downloads API for tracking. */
+  asset: TrackedAsset;
   label: string;
   note: string;
   fileHint: string;
@@ -18,11 +18,12 @@ interface Props {
 }
 
 const { asset, label, note, fileHint, extra = [] } = Astro.props;
+const primaryHref = downloadHref(assetPlatform[asset]);
 ---
 
 <div class="download-box" data-reveal>
   <p class="note">{note}</p>
-  <a class="btn btn-primary" href={repos.releases} data-asset={asset}>
+  <a class="btn btn-primary" href={primaryHref} data-asset={asset} data-tracked>
     {label}
     <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"
       ><path d="M10 3v10M5 9l5 5 5-5M4 17h12"></path></svg
@@ -64,7 +65,8 @@ const { asset, label, note, fileHint, extra = [] } = Astro.props;
       for (const [key, re] of Object.entries(patterns)) {
         const asset = release.assets.find((a) => re.test(a.name));
         if (!asset) continue;
-        document.querySelectorAll(`[data-asset="${key}"]`).forEach((a) => {
+        // Primary buttons use the tracked downloads API; only extras get a direct GitHub URL.
+        document.querySelectorAll(`[data-asset="${key}"]:not([data-tracked])`).forEach((a) => {
           a.setAttribute("href", asset.browser_download_url);
         });
         document.querySelectorAll(`[data-size="${key}"]`).forEach((size) => {

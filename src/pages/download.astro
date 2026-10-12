@@ -1,8 +1,21 @@
 ---
 import Base from "../layouts/Base.astro";
-import { href, releaseApi, repos } from "../site";
+import {
+  assetPlatform,
+  downloadHref,
+  href,
+  releaseApi,
+  repos,
+  type TrackedAsset,
+} from "../site";
 
-const platforms = [
+const platforms: {
+  id: string;
+  name: string;
+  note: string;
+  primary: { asset: TrackedAsset; label: string; file: string };
+  extra: { asset: string; label: string }[];
+}[] = [
   {
     id: "windows",
     name: "Windows",
@@ -54,7 +67,12 @@ const platforms = [
               <p class="for-you">Past bij jouw computer</p>
               <h3>{p.name}</h3>
               <p class="note">{p.note}</p>
-              <a class="btn btn-primary" href={repos.releases} data-asset={p.primary.asset}>
+              <a
+                class="btn btn-primary"
+                href={downloadHref(assetPlatform[p.primary.asset])}
+                data-asset={p.primary.asset}
+                data-tracked
+              >
                 {p.primary.label}
                 <svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
                   <path d="M10 3v10M5 9l5 5 5-5M4 17h12" />
@@ -209,7 +227,10 @@ const platforms = [
       for (const [key, re] of Object.entries(patterns)) {
         const asset = release.assets.find((a) => re.test(a.name));
         if (!asset) continue;
-        document.querySelectorAll(`[data-asset="${key}"]`).forEach((a) => a.setAttribute("href", asset.browser_download_url));
+        // Primary buttons use the tracked downloads API; only extras get a direct GitHub URL.
+        document.querySelectorAll(`[data-asset="${key}"]:not([data-tracked])`).forEach((a) => {
+          a.setAttribute("href", asset.browser_download_url);
+        });
         const size = document.querySelector(`[data-size="${key}"]`);
         if (size) size.textContent = ` · ${Math.round(asset.size / 1e6)} MB`;
       }
